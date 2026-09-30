@@ -1,3 +1,36 @@
 <resources>
+
+
+
+
     <string name="app_name">barista-app</string>
+
+    <string name="title_select_machine">Elegí tu método de preparación</string>
+    <string name="coffee_french_press">Prensa Francesa</string>
+    <string name="coffee_moka">Moka Italiana</string>
+    <string name="coffee_drip">Cafetera de Goteo</string>
+    <string name="coffee_ideal">Café Ideal</string>
+    <string name="btn_select">Seleccionar</string>
+    <string name="msg_selected">Seleccionaste: %1$s</string>
+
+    <string name="step2_title">%1$s: elegí la cantidad y la intensidad</string>
+    <string name="hint_coffee_amount">Cantidad de café (ml)</string>
+    <string name="step2_intensity_label">¿Qué tan intenso lo querés?</string>
+    <string name="intensity_soft">Suave</string>
+    <string name="intensity_medium">Medio</string>
+    <string name="intensity_strong">Fuerte</string>
+    <string name="btn_continue">Continuar</string>
+    <string name="btn_back">Volver</string>
+    <string name="error_amount_required">Ingresá una cantidad válida de café</string>
+    <string name="msg_step2_summary">%1$s - %2$d ml - Intensidad: %3$s</string>
+
+
+    <string name="step3_title">¿El café ya está molido?</string>
+    <string name="grind_status_ground">Sí, ya está molido</string>
+    <string name="grind_status_whole_bean">No, tengo en grano</string>
+    <string name="grind_type_french_press">Necesitás una molienda gruesa (tipo sal gruesa)</string>
+    <string name="grind_type_moka">Necesitás una molienda fina-media (tipo azúcar)</string>
+    <string name="grind_type_drip">Necesitás una molienda media (tipo arena de playa)</string>
+    <string name="grind_type_default">Necesitás una molienda media</string>
+    <string name="msg_step3_summary">%1$s - %2$d ml - %3$s - %4$s</string>
 </resources>
