@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/step4TitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:text="@string/step4_title"
+        android:textColor="@color/coffee_brown"
+        android:textSize="@dimen/text_size_label"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/waterAmountTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_label" />
+
+    <TextView
+        android:id="@+id/coffeeAmountResultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:textSize="@dimen/text_size_label" />
+
+    <TextView
+        android:id="@+id/estimatedTimeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:textSize="@dimen/text_size_label" />
+
+    <TextView
+        android:id="@+id/tipTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:background="@color/card_background"
+        android:padding="@dimen/spacing_card"
+        android:textSize="@dimen/text_size_label" />
+
+    <TextView
+        android:id="@+id/stopwatchLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stopwatch_label"
+        android:textSize="@dimen/text_size_label" />
+
+    <TextView
+        android:id="@+id/stopwatchDisplayTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:gravity="center"
+        android:text="00:00"
+        android:textColor="@color/coffee_brown"
+        android:textSize="@dimen/text_size_title"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/stopwatchStartButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_start" />
+
+        <Button
+            android:id="@+id/stopwatchResetButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_card"
+            android:layout_weight="1"
+            android:text="@string/btn_reset" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/addToIdealButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:text="@string/btn_add_to_ideal" />
+
+    <Button
+        android:id="@+id/step4BackButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_back" />
+</LinearLayout>

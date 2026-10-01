@@ -1,53 +1,51 @@
 <resources>
 
+    <string name="app_name">Barista App</string>
 
-
-
-    <string name="app_name">barista-app</string>
-
-    <string name="title_select_machine">Elegí tu método de preparación</string>
+    <string name="title_select_machine">Elegí tu cafetera</string>
     <string name="coffee_french_press">Prensa Francesa</string>
     <string name="coffee_moka">Moka Italiana</string>
     <string name="coffee_drip">Cafetera de Goteo</string>
-    <string name="coffee_ideal">Café Ideal</string>
+    <string name="coffee_ideal">Mi Café Ideal</string>
     <string name="btn_select">Seleccionar</string>
-    <string name="msg_selected">Seleccionaste: %1$s</string>
-
-    <string name="step2_title">%1$s: elegí la cantidad y la intensidad</string>
+    <string name="step2_title">%1$s: cantidad e intensidad</string>
     <string name="hint_coffee_amount">Cantidad de café (ml)</string>
-    <string name="step2_intensity_label">¿Qué tan intenso lo querés?</string>
+    <string name="step2_intensity_label">Intensidad</string>
     <string name="intensity_soft">Suave</string>
     <string name="intensity_medium">Medio</string>
     <string name="intensity_strong">Fuerte</string>
     <string name="btn_continue">Continuar</string>
     <string name="btn_back">Volver</string>
-    <string name="error_amount_required">Ingresá una cantidad válida de café</string>
-    <string name="msg_step2_summary">%1$s - %2$d ml - Intensidad: %3$s</string>
+    <string name="error_amount_required">Ingresá una cantidad válida</string>
+    <string name="estimated_time_default">Varía según la cafetera</string>
+    <string name="tip_ideal">Elegí una receta guardada para ver sus tips.</string>
 
-
+    <string name="btn_view_recipes">Ver recetas</string>
     <string name="step3_title">¿El café ya está molido?</string>
-    <string name="grind_status_ground">Sí, ya está molido</string>
-    <string name="grind_status_whole_bean">No, tengo en grano</string>
-    <string name="grind_type_french_press">Necesitás una molienda gruesa (tipo sal gruesa)</string>
-    <string name="grind_type_moka">Necesitás una molienda fina-media (tipo azúcar)</string>
-    <string name="grind_type_drip">Necesitás una molienda media (tipo arena de playa)</string>
-    <string name="grind_type_default">Necesitás una molienda media</string>
-    <string name="msg_step3_summary">%1$s - %2$d ml - %3$s - %4$s</string>
-
-    <string name="step4_title">Tu café, calculado</string>
-    <string name="label_water_amount">%1$d ml de agua</string>
-    <string name="label_coffee_amount">%1$d g de café</string>
+    <string name="grind_status_ground">Molido</string>
+    <string name="grind_status_whole_bean">En grano</string>
+    <string name="grind_type_french_press">Para prensa francesa necesitás un molido grueso</string>
+    <string name="grind_type_moka">Para moka italiana necesitás un molido medio-fino</string>
+    <string name="grind_type_drip">Para cafetera de goteo necesitás un molido medio</string>
+    <string name="grind_type_default">Pedí un molido medio en tu cafetería de confianza</string>
+    <string name="step4_title">Tu receta</string>
+    <string name="label_water_amount">Agua: %1$d ml</string>
+    <string name="label_coffee_amount">Café: %1$d g</string>
     <string name="label_estimated_time">Tiempo estimado: %1$s</string>
-    <string name="estimated_time_default">según tu receta</string>
-    <string name="tip_french_press">Usá agua caliente (92-96°C) y dejá reposar 4 minutos antes de presionar el émbolo.</string>
-    <string name="tip_moka">Usá agua caliente para arrancar y fuego bajo, así no se quema el café.</string>
-    <string name="tip_drip">Verter el agua en círculos lentos ayuda a una extracción pareja.</string>
-    <string name="tip_ideal">Esta es tu receta guardada: ¡disfrutala!</string>
+    <string name="estimated_time_french_press">4 minutos</string>
+    <string name="estimated_time_moka">5 minutos</string>
+    <string name="estimated_time_drip">3 minutos</string>
+    <string name="tip_french_press">Remové suavemente antes de presionar el émbolo.</string>
+    <string name="tip_moka">Usá fuego bajo para evitar que el café se queme.</string>
+    <string name="tip_drip">Verté el agua en círculos lentos sobre el filtro.</string>
     <string name="stopwatch_label">Cronómetro libre</string>
     <string name="btn_start">Iniciar</string>
     <string name="btn_pause">Pausar</string>
     <string name="btn_reset">Reiniciar</string>
-    <string name="btn_add_to_ideal">★ Añadir a mi café ideal</string>
-    <string name="msg_added_to_ideal">¡Guardado en tu Café Ideal!</string>
+    <string name="btn_add_to_ideal">★ Añadir a mi Café Ideal</string>
+    <string name="msg_added_to_ideal">Receta añadida a tu Café Ideal</string>
+    <string name="ideal_recipes_title">Mi Café Ideal</string>
+    <string name="no_recipes_saved">Todavía no guardaste ninguna receta.</string>
+    <string name="saved_recipe_summary">%1$s · %2$d ml · %3$s · %4$s</string>
 
 </resources>

@@ -31,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout step2Container;
     private LinearLayout step3Container;
     private LinearLayout step4Container;
+    private LinearLayout idealRecipesContainer;
+    private LinearLayout savedRecipesListContainer;
+    private TextView noRecipesTextView;
     private TextView step2TitleTextView;
     private EditText coffeeAmountInput;
     private RadioGroup intensityRadioGroup;
@@ -74,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
         step2Container = findViewById(R.id.step2Container);
         step3Container = findViewById(R.id.step3Container);
         step4Container = findViewById(R.id.step4Container);
+        idealRecipesContainer = findViewById(R.id.idealRecipesContainer);
+        savedRecipesListContainer = findViewById(R.id.savedRecipesListContainer);
+        noRecipesTextView = findViewById(R.id.noRecipesTextView);
         step2TitleTextView = findViewById(R.id.step2TitleTextView);
         coffeeAmountInput = findViewById(R.id.coffeeAmountInput);
         intensityRadioGroup = findViewById(R.id.intensityRadioGroup);
@@ -97,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         Button stopwatchResetButton = findViewById(R.id.stopwatchResetButton);
         Button addToIdealButton = findViewById(R.id.addToIdealButton);
         Button step4BackButton = findViewById(R.id.step4BackButton);
+        Button idealBackButton = findViewById(R.id.idealBackButton);
 
         frenchPressButton.setOnClickListener(v -> selectCoffeeMachine(getString(R.string.coffee_french_press)));
         mokaButton.setOnClickListener(v -> selectCoffeeMachine(getString(R.string.coffee_moka)));
@@ -110,8 +117,10 @@ public class MainActivity extends AppCompatActivity {
 
         stopwatchStartButton.setOnClickListener(v -> toggleStopwatch());
         stopwatchResetButton.setOnClickListener(v -> resetStopwatch());
-        addToIdealButton.setOnClickListener(v -> Toast.makeText(this, getString(R.string.msg_added_to_ideal), Toast.LENGTH_SHORT).show());
+        addToIdealButton.setOnClickListener(v -> saveCurrentRecipeToIdeal());
         step4BackButton.setOnClickListener(v -> goBackToStep3());
+
+        idealBackButton.setOnClickListener(v -> goBackToOptionsFromIdeal());
 
         grindStatusRadioGroup.setOnCheckedChangeListener((group, checkedId) ->
                 updateGrindRecommendation(checkedId == R.id.wholeBeanRadioButton));
@@ -124,6 +133,16 @@ public class MainActivity extends AppCompatActivity {
         step2TitleTextView.setText(getString(R.string.step2_title, coffeeName));
         optionsContainer.setVisibility(View.GONE);
         step2Container.setVisibility(View.VISIBLE);
+    }
+
+    private void showIdealRecipes() {
+        optionsContainer.setVisibility(View.GONE);
+        idealRecipesContainer.setVisibility(View.VISIBLE);
+    }
+
+    private void goBackToOptionsFromIdeal() {
+        idealRecipesContainer.setVisibility(View.GONE);
+        optionsContainer.setVisibility(View.VISIBLE);
     }
 
     private void goBackToStep1() {
@@ -228,6 +247,35 @@ public class MainActivity extends AppCompatActivity {
         stopwatchDisplayTextView.setText(display);
     }
 
+    private void saveCurrentRecipeToIdeal() {
+        int ratio = getRatioForIntensity(selectedIntensity);
+        int coffeeGrams = Math.round((float) selectedAmount / ratio);
+        String summary = getString(R.string.saved_recipe_summary, selectedCoffeeType, selectedAmount, coffeeGrams, selectedIntensity);
+
+        Resources resources = getResources();
+        int cardPadding = resources.getDimensionPixelSize(R.dimen.spacing_card);
+
+        TextView recipeView = new TextView(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 0, 0, cardPadding);
+        recipeView.setLayoutParams(params);
+        recipeView.setPadding(cardPadding, cardPadding, cardPadding, cardPadding);
+        recipeView.setBackgroundColor(ContextCompat.getColor(this, R.color.card_background));
+        recipeView.setText(summary);
+        recipeView.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.text_size_label));
+
+        savedRecipesListContainer.addView(recipeView);
+        noRecipesTextView.setVisibility(View.GONE);
+
+        Toast.makeText(this, getString(R.string.msg_added_to_ideal), Toast.LENGTH_SHORT).show();
+
+        resetStopwatch();
+        step4Container.setVisibility(View.GONE);
+        optionsContainer.setVisibility(View.VISIBLE);
+    }
+
     private void updateGrindRecommendation(boolean isWholeBean) {
         if (!isWholeBean) {
             grindTypeResultTextView.setVisibility(View.GONE);
@@ -243,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             grindMessage = getString(R.string.grind_type_default);
         }
+
         grindTypeResultTextView.setText(grindMessage);
         grindTypeResultTextView.setVisibility(View.VISIBLE);
     }
@@ -290,13 +339,16 @@ public class MainActivity extends AppCompatActivity {
         idealButton.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
-        idealButton.setText(R.string.btn_select);
-        idealButton.setOnClickListener(v -> selectCoffeeMachine(getString(R.string.coffee_ideal)));
+        idealButton.setText(R.string.btn_view_recipes);
+        idealButton.setOnClickListener(v -> showIdealRecipes());
 
         idealCard.addView(idealImage);
         idealCard.addView(idealLabel);
         idealCard.addView(idealButton);
 
         optionsContainer.addView(idealCard);
+
+
     }
+
 }

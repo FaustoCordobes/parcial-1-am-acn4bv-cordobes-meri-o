@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/step2TitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:textColor="@color/coffee_brown"
+        android:textSize="@dimen/text_size_label"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/coffeeAmountInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:hint="@string/hint_coffee_amount"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/intensityLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:text="@string/step2_intensity_label"
+        android:textSize="@dimen/text_size_label" />
+
+    <RadioGroup
+        android:id="@+id/intensityRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/intensitySoftRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/intensity_soft" />
+
+        <RadioButton
+            android:id="@+id/intensityMediumRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_card"
+            android:checked="true"
+            android:text="@string/intensity_medium" />
+
+        <RadioButton
+            android:id="@+id/intensityStrongRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_card"
+            android:text="@string/intensity_strong" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/step2BackButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_back" />
+
+        <Button
+            android:id="@+id/step2ContinueButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_card"
+            android:layout_weight="1"
+            android:text="@string/btn_continue" />
+    </LinearLayout>
+</LinearLayout>
