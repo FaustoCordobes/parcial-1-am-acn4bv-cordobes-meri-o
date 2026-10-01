@@ -1,6 +1,26 @@
 <resources>
-
-    <string name="app_name">Barista App</string>
+    <string name="app_name">barista-app</string>
+    <string name="cron_metro">Cronómetro ↑</string>
+    <string name="cuenta_regresiva">Cuenta regresiva ↓</string>
+    <string name="iniciar">Iniciar</string>
+    <string name="reiniciar">Reiniciar</string>
+    <string name="temporizador">Temporizador</string>
+    <string name="calculadora_y_temporizador">Calculadora y Temporizador</string>
+    <string name="prepara_tu_caf_con_la_proporci_n_y_el_tiempo_exactos">Prepara tu café con la proporción y el tiempo exactos.</string>
+    <string name="calculadora_de_proporci_n">Calculadora de proporción</string>
+    <string name="agua">Agua</string>
+    <string name="caf">Café</string>
+    <string name="toca_el_tiempo_para_cambiarlo">Toca el tiempo para cambiarlo</string>
+    <string name="icon_arrows">⇄</string>
+    <string name="g">g</string>
+    <string name="mayorIcon">›</string>
+    <string name="_350">350</string>
+    <string name="ml">ml</string>
+    <string name="_00_00">00:00</string>
+    <string name="favorite">Favorite</string>
+    <string name="me">Me</string>
+    <string name="share">Share</string>
+    <string name="home">Home</string>
 
     <string name="title_select_machine">Elegí tu cafetera</string>
     <string name="coffee_french_press">Prensa Francesa</string>
@@ -19,7 +39,6 @@
     <string name="error_amount_required">Ingresá una cantidad válida</string>
     <string name="estimated_time_default">Varía según la cafetera</string>
     <string name="tip_ideal">Elegí una receta guardada para ver sus tips.</string>
-
     <string name="btn_view_recipes">Ver recetas</string>
     <string name="step3_title">¿El café ya está molido?</string>
     <string name="grind_status_ground">Molido</string>
@@ -47,5 +66,4 @@
     <string name="ideal_recipes_title">Mi Café Ideal</string>
     <string name="no_recipes_saved">Todavía no guardaste ninguna receta.</string>
     <string name="saved_recipe_summary">%1$s · %2$d ml · %3$s · %4$s</string>
-
 </resources>

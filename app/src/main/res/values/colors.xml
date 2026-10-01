@@ -3,4 +3,28 @@
     <color name="card_background">#FFF3E0 </color>
     <color name="coffee_brown">#6F4E37</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="primary_color">#1C1109</color>
+    <color name="secondary_color">#F3E7D2</color>
+
+    <color name="accent_caramel">#B07A43</color>
+    <color name="accent_caramel_dark">#8A5B2B</color>
+    <color name="accent_caramel_light">#EBD3B3</color>
+
+    <color name="background_light">#FBF8F2</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_variant_light">#EFE6D6</color>
+    <color name="outline_light">#D8CBB4</color>
+    <color name="text_secondary_light">#6B5B4E</color>
+
+    <color name="success">#4F7A4A</color>
+    <color name="error">#B3261E</color>
+    <color name="on_error">#FFFFFF</color>
+
+    <color name="background_dark">#140D08</color>
+    <color name="surface_dark">#1F1610</color>
+    <color name="surface_variant_dark">#2B1F17</color>
+    <color name="outline_dark">#4A3A2E</color>
+    <color name="text_secondary_dark">#BFAE9A</color>
+    <color name="error_dark">#F2B8B5</color>
 </resources>
