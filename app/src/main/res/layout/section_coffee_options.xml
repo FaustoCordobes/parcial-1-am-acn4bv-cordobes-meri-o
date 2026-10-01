@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/frenchPressCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/card_background"
+        android:padding="@dimen/spacing_card"
+        android:layout_marginBottom="@dimen/spacing_card">
+
+        <ImageView
+            android:id="@+id/frenchPressImage"
+            android:layout_width="@dimen/card_image_size"
+            android:layout_height="@dimen/card_image_size"
+            android:src="@drawable/prensa_francesa" />
+
+        <TextView
+            android:id="@+id/frenchPressLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/spacing_card"
+            android:text="@string/coffee_french_press"
+            android:textSize="@dimen/text_size_label" />
+
+        <Button
+            android:id="@+id/frenchPressButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_select" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mokaCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/card_background"
+        android:padding="@dimen/spacing_card"
+        android:layout_marginBottom="@dimen/spacing_card">
+
+        <ImageView
+            android:id="@+id/mokaImage"
+            android:layout_width="@dimen/card_image_size"
+            android:layout_height="@dimen/card_image_size"
+            android:src="@drawable/moka_italiana" />
+
+        <TextView
+            android:id="@+id/mokaLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/spacing_card"
+            android:text="@string/coffee_moka"
+            android:textSize="@dimen/text_size_label" />
+
+        <Button
+            android:id="@+id/mokaButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_select" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dripCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/card_background"
+        android:padding="@dimen/spacing_card">
+
+        <ImageView
+            android:id="@+id/dripImage"
+            android:layout_width="@dimen/card_image_size"
+            android:layout_height="@dimen/card_image_size"
+            android:src="@drawable/cafetera_de_goteo" />
+
+        <TextView
+            android:id="@+id/dripLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/spacing_card"
+            android:text="@string/coffee_drip"
+            android:textSize="@dimen/text_size_label" />
+
+        <Button
+            android:id="@+id/dripButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_select" />
+
+    </LinearLayout>
+
+</LinearLayout>

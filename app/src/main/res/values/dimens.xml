@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="spacing_screen">16dp</dimen>
+    <dimen name="spacing_card">12dp</dimen>
+    <dimen name="card_image_size">64dp</dimen>
+    <dimen name="text_size_title">20sp</dimen>
+    <dimen name="text_size_label">16sp</dimen>
+
+
+    </resources>

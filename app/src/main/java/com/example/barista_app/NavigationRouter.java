@@ -2,6 +2,7 @@ package com.example.barista_app;
 
 import androidx.fragment.app.FragmentManager;
 
+import com.example.barista_app.strategy.FavoriteNavigationStrategy;
 import com.example.barista_app.strategy.HomeNavigationStrategy;
 import com.example.barista_app.strategy.NavigationStrategy;
 
@@ -15,7 +16,7 @@ public class NavigationRouter {
     public NavigationRouter() {
         strategies.put(R.id.nav_home, new HomeNavigationStrategy());
         //strategies.put(R.id.nav_share, new ShareNavigationStrategy());
-        //strategies.put(R.id.nav_favorite, new FavoriteNavigationStrategy());
+        strategies.put(R.id.nav_favorite, new FavoriteNavigationStrategy());
         //strategies.put(R.id.nav_me, new MeNavigationStrategy());
     }
 

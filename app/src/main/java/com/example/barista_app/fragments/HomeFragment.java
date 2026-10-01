@@ -26,6 +26,12 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (savedInstanceState == null) {
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.coffee_order_container, new CoffeeOrderFragment())
+                    .commit();
+        }
+
         ButtonCalcTimer btnTimerCalc = view.findViewById(R.id.btn_open_timer_calc);
 
         if (btnTimerCalc != null) {
