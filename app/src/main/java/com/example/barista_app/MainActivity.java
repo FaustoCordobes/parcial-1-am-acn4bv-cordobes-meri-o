@@ -2,6 +2,8 @@ package com.example.barista_app;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,15 +30,34 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout optionsContainer;
     private LinearLayout step2Container;
     private LinearLayout step3Container;
+    private LinearLayout step4Container;
     private TextView step2TitleTextView;
     private EditText coffeeAmountInput;
     private RadioGroup intensityRadioGroup;
     private RadioGroup grindStatusRadioGroup;
     private RadioButton wholeBeanRadioButton;
     private TextView grindTypeResultTextView;
+    private TextView waterAmountTextView;
+    private TextView coffeeAmountResultTextView;
+    private TextView estimatedTimeTextView;
+    private TextView tipTextView;
+    private TextView stopwatchDisplayTextView;
+    private Button stopwatchStartButton;
     private String selectedCoffeeType;
     private int selectedAmount;
     private String selectedIntensity;
+
+    private final Handler stopwatchHandler = new Handler(Looper.getMainLooper());
+    private int elapsedSeconds = 0;
+    private boolean isStopwatchRunning = false;
+    private final Runnable stopwatchRunnable = new Runnable() {
+        @Override
+        public void run() {
+            elapsedSeconds++;
+            updateStopwatchDisplay();
+            stopwatchHandler.postDelayed(this, 1000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +73,19 @@ public class MainActivity extends AppCompatActivity {
         optionsContainer = findViewById(R.id.optionsContainer);
         step2Container = findViewById(R.id.step2Container);
         step3Container = findViewById(R.id.step3Container);
+        step4Container = findViewById(R.id.step4Container);
         step2TitleTextView = findViewById(R.id.step2TitleTextView);
         coffeeAmountInput = findViewById(R.id.coffeeAmountInput);
         intensityRadioGroup = findViewById(R.id.intensityRadioGroup);
         grindStatusRadioGroup = findViewById(R.id.grindStatusRadioGroup);
         wholeBeanRadioButton = findViewById(R.id.wholeBeanRadioButton);
         grindTypeResultTextView = findViewById(R.id.grindTypeResultTextView);
+        waterAmountTextView = findViewById(R.id.waterAmountTextView);
+        coffeeAmountResultTextView = findViewById(R.id.coffeeAmountResultTextView);
+        estimatedTimeTextView = findViewById(R.id.estimatedTimeTextView);
+        tipTextView = findViewById(R.id.tipTextView);
+        stopwatchDisplayTextView = findViewById(R.id.stopwatchDisplayTextView);
+        stopwatchStartButton = findViewById(R.id.stopwatchStartButton);
 
         Button frenchPressButton = findViewById(R.id.frenchPressButton);
         Button mokaButton = findViewById(R.id.mokaButton);
@@ -64,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
         Button step2ContinueButton = findViewById(R.id.step2ContinueButton);
         Button step3BackButton = findViewById(R.id.step3BackButton);
         Button step3ContinueButton = findViewById(R.id.step3ContinueButton);
+        Button stopwatchResetButton = findViewById(R.id.stopwatchResetButton);
+        Button addToIdealButton = findViewById(R.id.addToIdealButton);
+        Button step4BackButton = findViewById(R.id.step4BackButton);
 
         frenchPressButton.setOnClickListener(v -> selectCoffeeMachine(getString(R.string.coffee_french_press)));
         mokaButton.setOnClickListener(v -> selectCoffeeMachine(getString(R.string.coffee_moka)));
@@ -74,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
 
         step3BackButton.setOnClickListener(v -> goBackToStep2());
         step3ContinueButton.setOnClickListener(v -> handleStep3Continue());
+
+        stopwatchStartButton.setOnClickListener(v -> toggleStopwatch());
+        stopwatchResetButton.setOnClickListener(v -> resetStopwatch());
+        addToIdealButton.setOnClickListener(v -> Toast.makeText(this, getString(R.string.msg_added_to_ideal), Toast.LENGTH_SHORT).show());
+        step4BackButton.setOnClickListener(v -> goBackToStep3());
 
         grindStatusRadioGroup.setOnCheckedChangeListener((group, checkedId) ->
                 updateGrindRecommendation(checkedId == R.id.wholeBeanRadioButton));
@@ -98,6 +136,12 @@ public class MainActivity extends AppCompatActivity {
         step2Container.setVisibility(View.VISIBLE);
     }
 
+    private void goBackToStep3() {
+        resetStopwatch();
+        step4Container.setVisibility(View.GONE);
+        step3Container.setVisibility(View.VISIBLE);
+    }
+
     private void handleStep2Continue() {
         String amountText = coffeeAmountInput.getText().toString().trim();
         try {
@@ -113,11 +157,75 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleStep3Continue() {
-        String grindStatusText = wholeBeanRadioButton.isChecked()
-                ? getString(R.string.grind_status_whole_bean)
-                : getString(R.string.grind_status_ground);
-        String message = getString(R.string.msg_step3_summary, selectedCoffeeType, selectedAmount, selectedIntensity, grindStatusText);
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        step3Container.setVisibility(View.GONE);
+        step4Container.setVisibility(View.VISIBLE);
+        calculateRecipe();
+    }
+
+    private void calculateRecipe() {
+        int ratio = getRatioForIntensity(selectedIntensity);
+        int coffeeGrams = Math.round((float) selectedAmount / ratio);
+        waterAmountTextView.setText(getString(R.string.label_water_amount, selectedAmount));
+        coffeeAmountResultTextView.setText(getString(R.string.label_coffee_amount, coffeeGrams));
+        estimatedTimeTextView.setText(getString(R.string.label_estimated_time, getEstimatedTime()));
+        tipTextView.setText(getTipForCoffeeType());
+    }
+
+    private int getRatioForIntensity(String intensity) {
+        if (intensity.equals(getString(R.string.intensity_soft))) {
+            return 17;
+        } else if (intensity.equals(getString(R.string.intensity_strong))) {
+            return 13;
+        }
+        return 15;
+    }
+
+    private String getEstimatedTime() {
+        if (selectedCoffeeType.equals(getString(R.string.coffee_french_press))) {
+            return "4 min";
+        } else if (selectedCoffeeType.equals(getString(R.string.coffee_moka))) {
+            return "5 min";
+        } else if (selectedCoffeeType.equals(getString(R.string.coffee_drip))) {
+            return "3 min";
+        }
+        return getString(R.string.estimated_time_default);
+    }
+
+    private String getTipForCoffeeType() {
+        if (selectedCoffeeType.equals(getString(R.string.coffee_french_press))) {
+            return getString(R.string.tip_french_press);
+        } else if (selectedCoffeeType.equals(getString(R.string.coffee_moka))) {
+            return getString(R.string.tip_moka);
+        } else if (selectedCoffeeType.equals(getString(R.string.coffee_drip))) {
+            return getString(R.string.tip_drip);
+        }
+        return getString(R.string.tip_ideal);
+    }
+
+    private void toggleStopwatch() {
+        if (isStopwatchRunning) {
+            stopwatchHandler.removeCallbacks(stopwatchRunnable);
+            stopwatchStartButton.setText(R.string.btn_start);
+        } else {
+            stopwatchHandler.postDelayed(stopwatchRunnable, 1000);
+            stopwatchStartButton.setText(R.string.btn_pause);
+        }
+        isStopwatchRunning = !isStopwatchRunning;
+    }
+
+    private void resetStopwatch() {
+        stopwatchHandler.removeCallbacks(stopwatchRunnable);
+        isStopwatchRunning = false;
+        elapsedSeconds = 0;
+        updateStopwatchDisplay();
+        stopwatchStartButton.setText(R.string.btn_start);
+    }
+
+    private void updateStopwatchDisplay() {
+        int minutes = elapsedSeconds / 60;
+        int seconds = elapsedSeconds % 60;
+        String display = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        stopwatchDisplayTextView.setText(display);
     }
 
     private void updateGrindRecommendation(boolean isWholeBean) {

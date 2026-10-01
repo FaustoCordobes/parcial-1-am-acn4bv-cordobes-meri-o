@@ -297,4 +297,110 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/step4Container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/spacing_card"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/step4TitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step4_title"
+            android:textSize="@dimen/text_size_label"
+            android:textColor="@color/coffee_brown"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/spacing_card" />
+
+        <TextView
+            android:id="@+id/waterAmountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_label" />
+
+        <TextView
+            android:id="@+id/coffeeAmountResultTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_label" />
+
+        <TextView
+            android:id="@+id/estimatedTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_label"
+            android:layout_marginBottom="@dimen/spacing_card" />
+
+        <TextView
+            android:id="@+id/tipTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/card_background"
+            android:padding="@dimen/spacing_card"
+            android:textSize="@dimen/text_size_label"
+            android:layout_marginBottom="@dimen/spacing_card" />
+
+        <TextView
+            android:id="@+id/stopwatchLabelTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stopwatch_label"
+            android:textSize="@dimen/text_size_label"
+            android:layout_marginBottom="@dimen/spacing_card" />
+
+        <TextView
+            android:id="@+id/stopwatchDisplayTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="@dimen/text_size_title"
+            android:textStyle="bold"
+            android:textColor="@color/coffee_brown"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/spacing_card" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/spacing_card">
+
+            <Button
+                android:id="@+id/stopwatchStartButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_start" />
+
+            <Button
+                android:id="@+id/stopwatchResetButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/spacing_card"
+                android:text="@string/btn_reset" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/addToIdealButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_add_to_ideal"
+            android:layout_marginBottom="@dimen/spacing_card" />
+
+        <Button
+            android:id="@+id/step4BackButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_back" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
