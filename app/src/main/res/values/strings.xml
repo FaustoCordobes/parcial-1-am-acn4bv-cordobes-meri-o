@@ -10,4 +10,11 @@
     <string name="calculadora_de_proporci_n">Calculadora de proporción</string>
     <string name="agua">Agua</string>
     <string name="caf">Café</string>
+    <string name="toca_el_tiempo_para_cambiarlo">Toca el tiempo para cambiarlo</string>
+    <string name="icon_arrows">⇄</string>
+    <string name="g">g</string>
+    <string name="mayorIcon">›</string>
+    <string name="_350">350</string>
+    <string name="ml">ml</string>
+    <string name="_00_00">00:00</string>
 </resources>

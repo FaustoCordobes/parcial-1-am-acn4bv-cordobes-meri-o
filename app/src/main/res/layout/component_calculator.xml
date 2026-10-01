@@ -66,7 +66,7 @@
                         android:importantForAutofill="no"
                         android:inputType="numberDecimal"
                         android:maxLines="1"
-                        android:text="350"
+                        android:text="@string/_350"
                         android:textColor="@color/primary_color"
                         android:textSize="56sp"
                         android:textStyle="bold" />
@@ -74,7 +74,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ml"
+                        android:text="@string/ml"
                         android:textColor="@color/primary_color"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="6dp"
-                android:text="⇄"
+                android:text="@string/icon_arrows"
                 android:textColor="@color/primary_color"
                 android:textSize="24sp" />
 
@@ -130,7 +130,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="g"
+                        android:text="@string/g"
                         android:textColor="@color/primary_color"
                         android:textSize="14sp" />
                 </LinearLayout>
