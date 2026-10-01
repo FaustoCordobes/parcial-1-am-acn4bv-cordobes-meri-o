@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.barista_app.components.CalculatorComponent
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -20,58 +20,10 @@
             android:id="@+id/tv_calc_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Calculadora de proporción"
+            android:text="@string/calculadora_de_proporci_n"
             android:textColor="@color/primary_color"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Proporción: 1 g de café cada "
-                android:textColor="@color/primary_color"
-                android:textSize="14sp" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_ratio"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:layout_width="72dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="6dp"
-                app:boxCornerRadiusBottomEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusTopStart="12dp"
-                app:boxStrokeColor="@color/primary_color"
-                app:hintEnabled="false">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_ratio"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:paddingVertical="8dp"
-                    android:text="13"
-                    android:textColor="@color/primary_color"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ml de agua"
-                android:textColor="@color/primary_color"
-                android:textSize="14sp" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,13 +46,13 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingVertical="20dp"
-                    android:paddingHorizontal="12dp">
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Agua"
+                        android:text="@string/agua"
                         android:textColor="@color/primary_color"
                         android:textSize="14sp" />
 
@@ -111,8 +63,10 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="0"
+                        android:importantForAutofill="no"
                         android:inputType="numberDecimal"
-                        android:text="225"
+                        android:maxLines="1"
+                        android:text="350"
                         android:textColor="@color/primary_color"
                         android:textSize="56sp"
                         android:textStyle="bold" />
@@ -148,13 +102,13 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingVertical="20dp"
-                    android:paddingHorizontal="12dp">
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Café"
+                        android:text="@string/caf"
                         android:textColor="@color/primary_color"
                         android:textSize="14sp" />
 
@@ -165,8 +119,10 @@
                         android:background="@null"
                         android:gravity="center"
                         android:hint="0"
+                        android:importantForAutofill="no"
                         android:inputType="numberDecimal"
-                        android:text="17,3"
+                        android:maxLines="1"
+                        android:text=""
                         android:textColor="@color/primary_color"
                         android:textSize="56sp"
                         android:textStyle="bold" />
@@ -183,4 +139,4 @@
         </LinearLayout>
 
     </LinearLayout>
-</com.example.barista_app.components.CalculatorComponent>
+</com.google.android.material.card.MaterialCardView>

@@ -5,7 +5,9 @@
     <string name="iniciar">Iniciar</string>
     <string name="reiniciar">Reiniciar</string>
     <string name="temporizador">Temporizador</string>
-    <string name="calculadora_de_proporci_n">Calculadora de proporción</string>
     <string name="calculadora_y_temporizador">Calculadora y Temporizador</string>
     <string name="prepara_tu_caf_con_la_proporci_n_y_el_tiempo_exactos">Prepara tu café con la proporción y el tiempo exactos.</string>
+    <string name="calculadora_de_proporci_n">Calculadora de proporción</string>
+    <string name="agua">Agua</string>
+    <string name="caf">Café</string>
 </resources>
