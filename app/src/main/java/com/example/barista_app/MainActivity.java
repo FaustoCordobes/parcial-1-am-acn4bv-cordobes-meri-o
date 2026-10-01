@@ -32,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_view);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState == null) {
             router.navigateToDefault(getSupportFragmentManager(), R.id.fragment_container);
-        };
+        }
 
         bottomNav.setOnItemSelectedListener(i ->
                 router.navigateTo(i.getItemId(), getSupportFragmentManager(), R.id.fragment_container)
