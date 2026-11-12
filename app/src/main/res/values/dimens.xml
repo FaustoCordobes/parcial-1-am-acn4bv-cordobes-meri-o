@@ -6,5 +6,8 @@
     <dimen name="text_size_title">20sp</dimen>
     <dimen name="text_size_label">16sp</dimen>
 
+    <dimen name="login_logo_size">96dp</dimen>
+    <dimen name="login_spacing">24dp</dimen>
+    <dimen name="text_size_login_title">28sp</dimen>
 
     </resources>
