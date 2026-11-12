@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "948327924027",
+    "project_id": "barista-de-bolsillo",
+    "storage_bucket": "barista-de-bolsillo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948327924027:android:eb50cde140009eee9e371e",
+        "android_client_info": {
+          "package_name": "com.example.barista_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCu7_3fKNr_0-tQx4zhaDOfNIiy_b3yVPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
