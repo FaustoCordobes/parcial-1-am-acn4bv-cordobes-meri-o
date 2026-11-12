@@ -14,6 +14,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String EXTRA_USER_NAME = "extra_user_name";
+
     private EditText nameInput;
 
     @Override
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(EXTRA_USER_NAME, userName);
         startActivity(intent);
         finish();
     }

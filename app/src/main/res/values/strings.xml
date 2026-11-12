@@ -76,6 +76,8 @@
     <string name="login_button">Ingresar</string>
     <string name="login_error_empty_name">Escribí tu nombre para continuar</string>
     <string name="login_logo_description">Logo de Barista de bolsillo</string>
+
+    <string name="main_greeting">¡Hola, %1$s! ¿Qué café preparamos hoy?</string>
  </resources>
 
 

@@ -1,6 +1,7 @@
 package com.example.barista_app;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,11 +35,21 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             router.navigateToDefault(getSupportFragmentManager(), R.id.fragment_container);
+            showGreeting();
         }
 
         bottomNav.setOnItemSelectedListener(i ->
                 router.navigateTo(i.getItemId(), getSupportFragmentManager(), R.id.fragment_container)
         );
+    }
+
+    private void showGreeting() {
+        String userName = getIntent().getStringExtra(LoginActivity.EXTRA_USER_NAME);
+
+        if (userName != null) {
+            String greeting = getString(R.string.main_greeting, userName);
+            Toast.makeText(this, greeting, Toast.LENGTH_LONG).show();
+        }
     }
 
 }
