@@ -24,12 +24,17 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.barista_app.R;
+import com.example.barista_app.data.MethodRepository;
+import com.example.barista_app.models.CoffeeMethod;
 
+import java.util.List;
 import java.util.Locale;
 
 public class CoffeeOrderFragment extends Fragment {
 
-    private LinearLayout optionsContainer;
+    private View optionsContainer;
+    private LinearLayout methodCardsContainer;
+    private TextView methodsLoadingTextView;
     private LinearLayout step2Container;
     private LinearLayout step3Container;
     private LinearLayout step4Container;
@@ -49,7 +54,8 @@ public class CoffeeOrderFragment extends Fragment {
     private TextView stopwatchDisplayTextView;
     private Button stopwatchStartButton;
 
-    private String selectedCoffeeType;
+    private final MethodRepository methodRepository = new MethodRepository();
+    private CoffeeMethod selectedMethod;
     private int selectedAmount;
     private String selectedIntensity;
 
@@ -80,6 +86,8 @@ public class CoffeeOrderFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         optionsContainer = view.findViewById(R.id.optionsContainer);
+        methodCardsContainer = view.findViewById(R.id.methodCardsContainer);
+        methodsLoadingTextView = view.findViewById(R.id.methodsLoadingTextView);
         step2Container = view.findViewById(R.id.step2Container);
         step3Container = view.findViewById(R.id.step3Container);
         step4Container = view.findViewById(R.id.step4Container);
@@ -99,9 +107,6 @@ public class CoffeeOrderFragment extends Fragment {
         stopwatchDisplayTextView = view.findViewById(R.id.stopwatchDisplayTextView);
         stopwatchStartButton = view.findViewById(R.id.stopwatchStartButton);
 
-        Button frenchPressButton = view.findViewById(R.id.frenchPressButton);
-        Button mokaButton = view.findViewById(R.id.mokaButton);
-        Button dripButton = view.findViewById(R.id.dripButton);
         Button step2BackButton = view.findViewById(R.id.step2BackButton);
         Button step2ContinueButton = view.findViewById(R.id.step2ContinueButton);
         Button step3BackButton = view.findViewById(R.id.step3BackButton);
@@ -110,10 +115,6 @@ public class CoffeeOrderFragment extends Fragment {
         Button addToIdealButton = view.findViewById(R.id.addToIdealButton);
         Button step4BackButton = view.findViewById(R.id.step4BackButton);
         Button idealBackButton = view.findViewById(R.id.idealBackButton);
-
-        frenchPressButton.setOnClickListener(v -> selectCoffeeMachine(getString(R.string.coffee_french_press)));
-        mokaButton.setOnClickListener(v -> selectCoffeeMachine(getString(R.string.coffee_moka)));
-        dripButton.setOnClickListener(v -> selectCoffeeMachine(getString(R.string.coffee_drip)));
 
         step2BackButton.setOnClickListener(v -> goBackToStep1());
         step2ContinueButton.setOnClickListener(v -> handleStep2Continue());
@@ -131,7 +132,7 @@ public class CoffeeOrderFragment extends Fragment {
         grindStatusRadioGroup.setOnCheckedChangeListener((group, checkedId) ->
                 updateGrindRecommendation(checkedId == R.id.wholeBeanRadioButton));
 
-        addIdealCoffeeCard();
+        loadMethods();
     }
 
     @Override
@@ -140,9 +141,94 @@ public class CoffeeOrderFragment extends Fragment {
         stopwatchHandler.removeCallbacks(stopwatchRunnable);
     }
 
-    private void selectCoffeeMachine(String coffeeName) {
-        selectedCoffeeType = coffeeName;
-        step2TitleTextView.setText(getString(R.string.step2_title, coffeeName));
+    private void loadMethods() {
+        methodRepository.loadMethods(new MethodRepository.MethodsCallback() {
+            @Override
+            public void onSuccess(List<CoffeeMethod> methods) {
+                if (!isAdded()) {
+                    return;
+                }
+                methodsLoadingTextView.setVisibility(View.GONE);
+                for (CoffeeMethod method : methods) {
+                    methodCardsContainer.addView(createMethodCard(method));
+                }
+                addIdealCoffeeCard();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                if (!isAdded()) {
+                    return;
+                }
+                methodsLoadingTextView.setText(R.string.methods_error);
+                Toast.makeText(requireContext(), R.string.methods_error, Toast.LENGTH_LONG).show();
+                addIdealCoffeeCard();
+            }
+        });
+    }
+
+    private LinearLayout createMethodCard(CoffeeMethod method) {
+        Resources resources = getResources();
+        int cardPadding = resources.getDimensionPixelSize(R.dimen.spacing_card);
+        int imageSize = resources.getDimensionPixelSize(R.dimen.card_image_size);
+        float labelTextSize = resources.getDimension(R.dimen.text_size_label);
+
+        LinearLayout card = new LinearLayout(requireContext());
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setGravity(Gravity.CENTER_VERTICAL);
+        card.setPadding(cardPadding, cardPadding, cardPadding, cardPadding);
+        card.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.card_background));
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        cardParams.setMargins(0, 0, 0, cardPadding);
+        card.setLayoutParams(cardParams);
+
+        ImageView image = new ImageView(requireContext());
+        image.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize));
+        image.setImageResource(getImageForMethod(method.getId()));
+
+        TextView label = new TextView(requireContext());
+        LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f);
+        labelParams.setMarginStart(cardPadding);
+        label.setLayoutParams(labelParams);
+        label.setText(method.getName());
+        label.setTextColor(ContextCompat.getColor(requireContext(), R.color.coffee_brown));
+        label.setTextSize(TypedValue.COMPLEX_UNIT_PX, labelTextSize);
+
+        Button selectButton = new Button(requireContext());
+        selectButton.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        selectButton.setText(R.string.btn_select);
+        selectButton.setOnClickListener(v -> selectCoffeeMachine(method));
+
+        card.addView(image);
+        card.addView(label);
+        card.addView(selectButton);
+
+        return card;
+    }
+
+    private int getImageForMethod(String methodId) {
+        switch (methodId) {
+            case "prensa":
+                return R.drawable.prensa_francesa;
+            case "moka":
+                return R.drawable.moka_italiana;
+            case "filtro":
+                return R.drawable.cafetera_de_goteo;
+            default:
+                return R.drawable.ic_coffee_generic;
+        }
+    }
+
+    private void selectCoffeeMachine(CoffeeMethod method) {
+        selectedMethod = method;
+        step2TitleTextView.setText(getString(R.string.step2_title, method.getName()));
         optionsContainer.setVisibility(View.GONE);
         step2Container.setVisibility(View.VISIBLE);
     }
@@ -198,39 +284,31 @@ public class CoffeeOrderFragment extends Fragment {
         int coffeeGrams = Math.round((float) selectedAmount / ratio);
         waterAmountTextView.setText(getString(R.string.label_water_amount, selectedAmount));
         coffeeAmountResultTextView.setText(getString(R.string.label_coffee_amount, coffeeGrams));
-        estimatedTimeTextView.setText(getString(R.string.label_estimated_time, getEstimatedTime()));
-        tipTextView.setText(getTipForCoffeeType());
+        estimatedTimeTextView.setText(getString(R.string.label_estimated_time, selectedMethod.getBrewTime()));
+        tipTextView.setText(getTipForMethod());
     }
 
     private int getRatioForIntensity(String intensity) {
+        int baseRatio = selectedMethod.getRatio();
         if (intensity.equals(getString(R.string.intensity_soft))) {
-            return 17;
+            return baseRatio + 2;
         } else if (intensity.equals(getString(R.string.intensity_strong))) {
-            return 13;
+            return baseRatio - 3;
         }
-        return 15;
+        return baseRatio;
     }
 
-    private String getEstimatedTime() {
-        if (selectedCoffeeType.equals(getString(R.string.coffee_french_press))) {
-            return "4 min";
-        } else if (selectedCoffeeType.equals(getString(R.string.coffee_moka))) {
-            return "5 min";
-        } else if (selectedCoffeeType.equals(getString(R.string.coffee_drip))) {
-            return "3 min";
+    private String getTipForMethod() {
+        switch (selectedMethod.getId()) {
+            case "prensa":
+                return getString(R.string.tip_french_press);
+            case "moka":
+                return getString(R.string.tip_moka);
+            case "filtro":
+                return getString(R.string.tip_drip);
+            default:
+                return getString(R.string.tip_default);
         }
-        return getString(R.string.estimated_time_default);
-    }
-
-    private String getTipForCoffeeType() {
-        if (selectedCoffeeType.equals(getString(R.string.coffee_french_press))) {
-            return getString(R.string.tip_french_press);
-        } else if (selectedCoffeeType.equals(getString(R.string.coffee_moka))) {
-            return getString(R.string.tip_moka);
-        } else if (selectedCoffeeType.equals(getString(R.string.coffee_drip))) {
-            return getString(R.string.tip_drip);
-        }
-        return getString(R.string.tip_ideal);
     }
 
     private void toggleStopwatch() {
@@ -262,7 +340,7 @@ public class CoffeeOrderFragment extends Fragment {
     private void saveCurrentRecipeToIdeal() {
         int ratio = getRatioForIntensity(selectedIntensity);
         int coffeeGrams = Math.round((float) selectedAmount / ratio);
-        String summary = getString(R.string.saved_recipe_summary, selectedCoffeeType, selectedAmount, coffeeGrams, selectedIntensity);
+        String summary = getString(R.string.saved_recipe_summary, selectedMethod.getName(), selectedAmount, coffeeGrams, selectedIntensity);
 
         Resources resources = getResources();
         int cardPadding = resources.getDimensionPixelSize(R.dimen.spacing_card);
@@ -275,6 +353,7 @@ public class CoffeeOrderFragment extends Fragment {
         recipeView.setLayoutParams(params);
         recipeView.setPadding(cardPadding, cardPadding, cardPadding, cardPadding);
         recipeView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.card_background));
+        recipeView.setTextColor(ContextCompat.getColor(requireContext(), R.color.coffee_brown));
         recipeView.setText(summary);
         recipeView.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.text_size_label));
 
@@ -293,18 +372,8 @@ public class CoffeeOrderFragment extends Fragment {
             grindTypeResultTextView.setVisibility(View.GONE);
             return;
         }
-        String grindMessage;
-        if (selectedCoffeeType.equals(getString(R.string.coffee_french_press))) {
-            grindMessage = getString(R.string.grind_type_french_press);
-        } else if (selectedCoffeeType.equals(getString(R.string.coffee_moka))) {
-            grindMessage = getString(R.string.grind_type_moka);
-        } else if (selectedCoffeeType.equals(getString(R.string.coffee_drip))) {
-            grindMessage = getString(R.string.grind_type_drip);
-        } else {
-            grindMessage = getString(R.string.grind_type_default);
-        }
-
-        grindTypeResultTextView.setText(grindMessage);
+        String grind = selectedMethod.getGrind().toLowerCase(Locale.getDefault());
+        grindTypeResultTextView.setText(getString(R.string.grind_recommendation, selectedMethod.getName(), grind));
         grindTypeResultTextView.setVisibility(View.VISIBLE);
     }
 
@@ -345,6 +414,7 @@ public class CoffeeOrderFragment extends Fragment {
         labelParams.setMarginStart(cardPadding);
         idealLabel.setLayoutParams(labelParams);
         idealLabel.setText(R.string.coffee_ideal);
+        idealLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.coffee_brown));
         idealLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, labelTextSize);
 
         Button idealButton = new Button(requireContext());
@@ -358,6 +428,6 @@ public class CoffeeOrderFragment extends Fragment {
         idealCard.addView(idealLabel);
         idealCard.addView(idealButton);
 
-        optionsContainer.addView(idealCard);
+        methodCardsContainer.addView(idealCard);
     }
 }

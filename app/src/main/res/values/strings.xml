@@ -86,8 +86,8 @@
     <string name="ideal_title">Mi Café Ideal</string>
     <string name="ideal_placeholder">Acá vas a ver todas tus recetas guardadas.</string>
 
- </resources>
-
-
-
-
+    <string name="methods_loading">Cargando cafeteras…</string>
+    <string name="methods_error">No se pudieron cargar las cafeteras. Revisá tu conexión.</string>
+    <string name="grind_recommendation">Para %1$s necesitás molienda %2$s</string>
+    <string name="tip_default">Usá agua mineral o filtrada: el 98% de la taza es agua.</string>
+</resources>
