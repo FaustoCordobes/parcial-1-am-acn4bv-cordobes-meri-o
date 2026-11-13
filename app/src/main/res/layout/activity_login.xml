@@ -26,8 +26,7 @@
             android:layout_width="@dimen/login_logo_size"
             android:layout_height="@dimen/login_logo_size"
             android:contentDescription="@string/login_logo_description"
-            android:src="@drawable/ic_coffee_generic"
-            app:tint="@color/primary_color" />
+            android:src="@drawable/ic_coffee_generic" />
 
         <TextView
             android:id="@+id/login_title"
