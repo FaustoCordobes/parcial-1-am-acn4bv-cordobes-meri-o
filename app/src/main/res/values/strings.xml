@@ -78,6 +78,16 @@
     <string name="login_logo_description">Logo de Barista de bolsillo</string>
 
     <string name="main_greeting">¡Hola, %1$s! ¿Qué café preparamos hoy?</string>
+
+    <string name="share_title">Compartir</string>
+    <string name="share_placeholder">Acá vas a poder compartir tus recetas con amigos.</string>
+    <string name="profile_title">Mi perfil</string>
+    <string name="profile_placeholder">Acá vas a ver tus datos y preferencias.</string>
+    <string name="ideal_title">Mi Café Ideal</string>
+    <string name="ideal_placeholder">Acá vas a ver todas tus recetas guardadas.</string>
+
  </resources>
+
+
 
 
