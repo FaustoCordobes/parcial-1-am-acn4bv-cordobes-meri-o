@@ -31,6 +31,12 @@
             android:text="@string/profile_placeholder"
             android:textColor="@color/text_secondary_dark"
             android:textSize="@dimen/text_size_label" />
+
+        <Button
+            android:id="@+id/logoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cerrar sesión" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

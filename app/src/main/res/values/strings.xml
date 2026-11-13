@@ -69,13 +69,25 @@
 
 
 
-
     <string name="login_title">Barista de bolsillo</string>
-    <string name="login_subtitle">Ingresá tu nombre para empezar a preparar tu café</string>
+    <string name="login_subtitle">Ingresá con tu cuenta para empezar a preparar tu café</string>
     <string name="login_name_hint">Tu nombre</string>
     <string name="login_button">Ingresar</string>
     <string name="login_error_empty_name">Escribí tu nombre para continuar</string>
     <string name="login_logo_description">Logo de Barista de bolsillo</string>
+
+    <string name="login_email_hint">Correo electrónico</string>
+    <string name="login_password_hint">Contraseña</string>
+    <string name="login_register_button">Registrarse</string>
+    <string name="login_error_empty_email">Ingresá tu correo para continuar</string>
+    <string name="login_error_empty_password">Ingresá tu contraseña para continuar</string>
+    <string name="login_error_short_password">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="login_error_generic">No se pudo iniciar sesión. Revisá tus datos</string>
+    <string name="login_error_email_taken">Ese correo ya está registrado</string>
+    <string name="login_error_invalid_credentials">Correo o contraseña incorrectos</string>
+
+    <string name="login_password_confirm_hint">Repetí tu contraseña</string>
+    <string name="login_error_password_mismatch">Las contraseñas no coinciden</string>
 
     <string name="main_greeting">¡Hola, %1$s! ¿Qué café preparamos hoy?</string>
 

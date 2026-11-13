@@ -10,6 +10,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -44,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showGreeting() {
-        String userName = getIntent().getStringExtra(LoginActivity.EXTRA_USER_NAME);
-
-        if (userName != null) {
-            String greeting = getString(R.string.main_greeting, userName);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && user.getEmail() != null) {
+            String greeting = getString(R.string.main_greeting, user.getEmail());
             Toast.makeText(this, greeting, Toast.LENGTH_LONG).show();
         }
+
     }
 
 }

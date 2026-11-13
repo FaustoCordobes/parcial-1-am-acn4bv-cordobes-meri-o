@@ -32,6 +32,8 @@ import com.example.barista_app.data.MethodRepository;
 import com.example.barista_app.data.RecipeRepository;
 import com.example.barista_app.models.CoffeeMethod;
 import com.example.barista_app.models.Recipe;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 import java.util.Locale;
@@ -405,7 +407,8 @@ public class CoffeeOrderFragment extends Fragment {
 
     private void saveRecipeToFirestore(int coffeeGrams) {
         Recipe recipe = new Recipe();
-        recipe.setUserName(requireActivity().getIntent().getStringExtra(LoginActivity.EXTRA_USER_NAME));
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        recipe.setUserName(user != null ? user.getEmail() : null);
         recipe.setMethodId(selectedMethod.getId());
         recipe.setMethodName(selectedMethod.getName());
         recipe.setWaterMl(selectedAmount);

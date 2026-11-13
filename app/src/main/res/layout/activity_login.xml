@@ -49,15 +49,37 @@
             android:textSize="@dimen/text_size_label" />
 
         <EditText
-            android:id="@+id/login_name_input"
+            android:id="@+id/login_email_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/login_spacing"
-            android:autofillHints="name"
-            android:hint="@string/login_name_hint"
-            android:inputType="textPersonName"
+            android:autofillHints="emailAddress"
+            android:hint="@string/login_email_hint"
+            android:inputType="textEmailAddress"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/text_secondary_light" />
+
+        <EditText
+            android:id="@+id/login_password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_spacing"
+            android:autofillHints="password"
+            android:hint="@string/login_password_hint"
+            android:inputType="textPassword"
+            android:textColor="@color/primary_color"
+            android:textColorHint="@color/text_secondary_light" />
+
+        <EditText
+            android:id="@+id/login_password_confirm_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_spacing"
+            android:hint="@string/login_password_confirm_hint"
+            android:visibility="gone"
+            android:textColor="@color/primary_color"
+            android:textColorHint="@color/text_secondary_light"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/login_button"
@@ -66,6 +88,15 @@
             android:layout_marginTop="@dimen/login_spacing"
             android:backgroundTint="@color/accent_caramel"
             android:text="@string/login_button"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/login_register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_spacing"
+            android:backgroundTint="@color/primary_color"
+            android:text="@string/login_register_button"
             android:textColor="@color/white" />
     </LinearLayout>
 
