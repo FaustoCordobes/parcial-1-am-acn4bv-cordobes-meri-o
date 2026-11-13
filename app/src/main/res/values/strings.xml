@@ -90,4 +90,11 @@
     <string name="methods_error">No se pudieron cargar las cafeteras. Revisá tu conexión.</string>
     <string name="grind_recommendation">Para %1$s necesitás molienda %2$s</string>
     <string name="tip_default">Usá agua mineral o filtrada: el 98% de la taza es agua.</string>
+
+    <string name="btn_view_detail">Ver detalle</string>
+    <string name="method_detail_ratio">Proporción: 1 g de café cada %1$d ml de agua</string>
+    <string name="method_detail_grind">Molienda: %1$s</string>
+    <string name="method_detail_time">Tiempo de extracción: %1$s</string>
+    <string name="method_detail_image_description">Foto de la cafetera</string>
+    <string name="method_detail_back">Volver a las cafeteras</string>
 </resources>

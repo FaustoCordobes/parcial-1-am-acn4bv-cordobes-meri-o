@@ -10,4 +10,7 @@
     <dimen name="login_spacing">24dp</dimen>
     <dimen name="text_size_login_title">28sp</dimen>
 
+    <dimen name="method_detail_image_size">160dp</dimen>
+    <dimen name="text_size_detail_title">26sp</dimen>
+
     </resources>

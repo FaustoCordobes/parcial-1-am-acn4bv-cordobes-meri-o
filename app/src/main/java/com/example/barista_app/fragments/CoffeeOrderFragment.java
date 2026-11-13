@@ -1,6 +1,8 @@
 package com.example.barista_app.fragments;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.barista_app.MethodDetailActivity;
 import com.example.barista_app.R;
 import com.example.barista_app.data.MethodRepository;
 import com.example.barista_app.models.CoffeeMethod;
@@ -188,16 +191,29 @@ public class CoffeeOrderFragment extends Fragment {
         image.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize));
         image.setImageResource(getImageForMethod(method.getId()));
 
-        TextView label = new TextView(requireContext());
-        LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(
+        LinearLayout textColumn = new LinearLayout(requireContext());
+        textColumn.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams columnParams = new LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 1f);
-        labelParams.setMarginStart(cardPadding);
-        label.setLayoutParams(labelParams);
+        columnParams.setMarginStart(cardPadding);
+        textColumn.setLayoutParams(columnParams);
+
+        TextView label = new TextView(requireContext());
         label.setText(method.getName());
         label.setTextColor(ContextCompat.getColor(requireContext(), R.color.coffee_brown));
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, labelTextSize);
+
+        TextView detailLink = new TextView(requireContext());
+        detailLink.setText(R.string.btn_view_detail);
+        detailLink.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_caramel_dark));
+        detailLink.setPaintFlags(detailLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        detailLink.setPadding(0, cardPadding / 2, 0, 0);
+        detailLink.setOnClickListener(v -> openMethodDetail(method));
+
+        textColumn.addView(label);
+        textColumn.addView(detailLink);
 
         Button selectButton = new Button(requireContext());
         selectButton.setLayoutParams(new LinearLayout.LayoutParams(
@@ -206,11 +222,27 @@ public class CoffeeOrderFragment extends Fragment {
         selectButton.setText(R.string.btn_select);
         selectButton.setOnClickListener(v -> selectCoffeeMachine(method));
 
+        image.setOnClickListener(v -> openMethodDetail(method));
+
         card.addView(image);
-        card.addView(label);
+        card.addView(textColumn);
         card.addView(selectButton);
 
         return card;
+    }
+
+    private void openMethodDetail(CoffeeMethod method) {
+        Bundle methodData = new Bundle();
+        methodData.putString(MethodDetailActivity.KEY_NAME, method.getName());
+        methodData.putString(MethodDetailActivity.KEY_DESCRIPTION, method.getDescription());
+        methodData.putInt(MethodDetailActivity.KEY_RATIO, method.getRatio());
+        methodData.putString(MethodDetailActivity.KEY_GRIND, method.getGrind());
+        methodData.putString(MethodDetailActivity.KEY_BREW_TIME, method.getBrewTime());
+        methodData.putInt(MethodDetailActivity.KEY_IMAGE, getImageForMethod(method.getId()));
+
+        Intent intent = new Intent(requireContext(), MethodDetailActivity.class);
+        intent.putExtras(methodData);
+        startActivity(intent);
     }
 
     private int getImageForMethod(String methodId) {
