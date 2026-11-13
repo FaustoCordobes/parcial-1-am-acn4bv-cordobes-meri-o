@@ -25,10 +25,13 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.barista_app.LoginActivity;
 import com.example.barista_app.MethodDetailActivity;
 import com.example.barista_app.R;
 import com.example.barista_app.data.MethodRepository;
+import com.example.barista_app.data.RecipeRepository;
 import com.example.barista_app.models.CoffeeMethod;
+import com.example.barista_app.models.Recipe;
 
 import java.util.List;
 import java.util.Locale;
@@ -58,6 +61,7 @@ public class CoffeeOrderFragment extends Fragment {
     private Button stopwatchStartButton;
 
     private final MethodRepository methodRepository = new MethodRepository();
+    private final RecipeRepository recipeRepository = new RecipeRepository();
     private CoffeeMethod selectedMethod;
     private int selectedAmount;
     private String selectedIntensity;
@@ -392,11 +396,42 @@ public class CoffeeOrderFragment extends Fragment {
         savedRecipesListContainer.addView(recipeView);
         noRecipesTextView.setVisibility(View.GONE);
 
-        Toast.makeText(requireContext(), getString(R.string.msg_added_to_ideal), Toast.LENGTH_SHORT).show();
+        saveRecipeToFirestore(coffeeGrams);
 
         resetStopwatch();
         step4Container.setVisibility(View.GONE);
         optionsContainer.setVisibility(View.VISIBLE);
+    }
+
+    private void saveRecipeToFirestore(int coffeeGrams) {
+        Recipe recipe = new Recipe();
+        recipe.setUserName(requireActivity().getIntent().getStringExtra(LoginActivity.EXTRA_USER_NAME));
+        recipe.setMethodId(selectedMethod.getId());
+        recipe.setMethodName(selectedMethod.getName());
+        recipe.setWaterMl(selectedAmount);
+        recipe.setCoffeeGrams(coffeeGrams);
+        recipe.setIntensity(selectedIntensity);
+        recipe.setGrind(selectedMethod.getGrind());
+        recipe.setNote("");
+        recipe.setCreatedAt(System.currentTimeMillis());
+
+        recipeRepository.saveRecipe(recipe, new RecipeRepository.OperationCallback() {
+            @Override
+            public void onSuccess() {
+                if (!isAdded()) {
+                    return;
+                }
+                Toast.makeText(requireContext(), R.string.msg_added_to_ideal, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                if (!isAdded()) {
+                    return;
+                }
+                Toast.makeText(requireContext(), R.string.recipe_save_error, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void updateGrindRecommendation(boolean isWholeBean) {

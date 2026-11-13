@@ -13,4 +13,7 @@
     <dimen name="method_detail_image_size">160dp</dimen>
     <dimen name="text_size_detail_title">26sp</dimen>
 
+    <dimen name="spacing_small">4dp</dimen>
+    <dimen name="nav_bar_space">96dp</dimen>
+
     </resources>

@@ -97,4 +97,21 @@
     <string name="method_detail_time">Tiempo de extracción: %1$s</string>
     <string name="method_detail_image_description">Foto de la cafetera</string>
     <string name="method_detail_back">Volver a las cafeteras</string>
+
+    <string name="ideal_empty">Todavía no guardaste recetas. Prepará un café y tocá «Añadir a mi Café Ideal».</string>
+    <string name="recipe_summary">%1$d ml de agua · %2$d g de café · %3$s</string>
+    <string name="recipe_note_display">Nota: %1$s</string>
+    <string name="recipe_delete_question">¿Eliminar la receta de %1$s?</string>
+    <string name="recipe_delete_action">Eliminar</string>
+    <string name="recipe_deleted">Receta eliminada</string>
+    <string name="recipe_save_error">No se pudo guardar la receta. Revisá tu conexión.</string>
+    <string name="recipes_load_error">No se pudieron cargar tus recetas. Revisá tu conexión.</string>
+    <string name="recipe_update_error">No se pudo actualizar la receta. Revisá tu conexión.</string>
+    <string name="recipe_detail_title">Detalle de la receta</string>
+    <string name="recipe_detail_intensity">Intensidad: %1$s</string>
+    <string name="recipe_note_label">Nota personal</string>
+    <string name="recipe_note_hint">Ej: la próxima, un poco más fuerte</string>
+    <string name="recipe_save_note">Guardar nota</string>
+    <string name="recipe_note_saved">Nota guardada</string>
+    <string name="recipe_delete_button">Eliminar receta</string>
 </resources>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark"
+    tools:context=".RecipeDetailActivity">
+
+    <ScrollView
+        android:id="@+id/recipeDetailScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/recipeDetailContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_screen">
+
+            <TextView
+                android:id="@+id/recipeDetailLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recipe_detail_title"
+                android:textColor="@color/text_secondary_dark"
+                android:textSize="@dimen/text_size_label" />
+
+            <TextView
+                android:id="@+id/recipeDetailName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:textColor="@color/secondary_color"
+                android:textSize="@dimen/text_size_detail_title"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/recipeDetailInfoCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_screen"
+                android:background="@color/card_background"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_screen">
+
+                <TextView
+                    android:id="@+id/recipeDetailWater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/coffee_brown"
+                    android:textSize="@dimen/text_size_label" />
+
+                <TextView
+                    android:id="@+id/recipeDetailCoffee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_card"
+                    android:textColor="@color/coffee_brown"
+                    android:textSize="@dimen/text_size_label" />
+
+                <TextView
+                    android:id="@+id/recipeDetailIntensity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_card"
+                    android:textColor="@color/coffee_brown"
+                    android:textSize="@dimen/text_size_label" />
+
+                <TextView
+                    android:id="@+id/recipeDetailGrind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_card"
+                    android:textColor="@color/coffee_brown"
+                    android:textSize="@dimen/text_size_label" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/recipeDetailNoteLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_screen"
+                android:text="@string/recipe_note_label"
+                android:textColor="@color/secondary_color"
+                android:textSize="@dimen/text_size_label"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/recipeDetailNoteInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:hint="@string/recipe_note_hint"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="2"
+                android:textColor="@color/secondary_color"
+                android:textColorHint="@color/text_secondary_dark" />
+
+            <Button
+                android:id="@+id/recipeDetailSaveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_screen"
+                android:backgroundTint="@color/accent_caramel"
+                android:text="@string/recipe_save_note"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/recipeDetailDeleteButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_card"
+                android:backgroundTint="@color/error"
+                android:text="@string/recipe_delete_button"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/recipeDetailBackButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_card"
+                android:text="@string/btn_back" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
