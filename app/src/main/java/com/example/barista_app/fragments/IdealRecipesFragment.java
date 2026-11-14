@@ -62,14 +62,21 @@ public class IdealRecipesFragment extends Fragment implements RecipeAdapter.OnRe
     }
 
     private void loadRecipes() {
-        recipeRepository.loadRecipes(new RecipeRepository.RecipesCallback() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return;
+        }
+        recipeRepository.loadFavoriteIds(user.getUid(), new RecipeRepository.FavoriteIdsCallback() {
             @Override
-            public void onSuccess(List<Recipe> recipes) {
+            public void onSuccess(List<String> ids) {
                 if (!isAdded()) {
                     return;
                 }
-                recipeAdapter.setRecipes(recipes);
-                emptyTextView.setVisibility(recipes.isEmpty() ? View.VISIBLE : View.GONE);
+                if (ids.isEmpty()) {
+                    showRecipes(new ArrayList<>());
+                    return;
+                }
+                loadFavoriteRecipes(user.getUid(), ids);
             }
 
             @Override
@@ -81,6 +88,40 @@ public class IdealRecipesFragment extends Fragment implements RecipeAdapter.OnRe
             }
         });
     }
+
+    private void loadFavoriteRecipes(String uid, List<String> ids) {
+        List<Recipe> results = new ArrayList<>();
+        int[] pending = {ids.size()};
+        for (String id : ids) {
+            recipeRepository.loadRecipe(id, new RecipeRepository.RecipeCallback() {
+                @Override
+                public void onSuccess(Recipe recipe) {
+                    if (recipe != null && (recipe.isShared() || uid.equals(recipe.getOwnerId()))) {
+                        results.add(recipe);
+                    }
+                    finishOne();
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    finishOne();
+                }
+
+                private void finishOne() {
+                    pending[0]--;
+                    if (pending[0] == 0 && isAdded()) {
+                        showRecipes(results);
+                    }
+                }
+            });
+        }
+    }
+
+    private void showRecipes(List<Recipe> recipes) {
+        recipeAdapter.setRecipes(recipes);
+        emptyTextView.setVisibility(recipes.isEmpty() ? View.VISIBLE : View.GONE);
+    }
+
 
 
 
@@ -101,12 +142,36 @@ public class IdealRecipesFragment extends Fragment implements RecipeAdapter.OnRe
 
     @Override
     public void onRecipeLongClick(Recipe recipe) {
-        Snackbar.make(requireView(),
-                        getString(R.string.recipe_delete_question, recipe.getMethodName()),
-                        Snackbar.LENGTH_LONG)
-                .setAction(R.string.recipe_delete_action, v -> deleteRecipe(recipe))
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return;
+        }
+        Snackbar.make(requireView(), recipe.getMethodName(), Snackbar.LENGTH_LONG)
+                .setAction(R.string.recipe_remove_favorite, v -> removeFromFavorites(user.getUid(), recipe))
                 .show();
     }
+
+    private void removeFromFavorites(String uid, Recipe recipe) {
+        recipeRepository.removeFavorite(uid, recipe.getId(), new RecipeRepository.OperationCallback() {
+            @Override
+            public void onSuccess() {
+                if (!isAdded()) {
+                    return;
+                }
+                Toast.makeText(requireContext(), R.string.recipe_favorite_removed, Toast.LENGTH_SHORT).show();
+                loadRecipes();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                if (!isAdded()) {
+                    return;
+                }
+                Toast.makeText(requireContext(), R.string.recipe_favorite_error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
     private void deleteRecipe(Recipe recipe) {
         recipeRepository.deleteRecipe(recipe.getId(), new RecipeRepository.OperationCallback() {

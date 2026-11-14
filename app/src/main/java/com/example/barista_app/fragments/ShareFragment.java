@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -99,6 +100,10 @@ public class ShareFragment extends Fragment {
                 ((TextView) box.findViewById(R.id.rate_summary)).setText(summary);
                 RatingBar bar = box.findViewById(R.id.rate_bar);
 
+                Button favoriteButton = box.findViewById(R.id.rate_favorite_button);
+                bindShareFavorite(favoriteButton, recipe);
+
+
                 new MaterialAlertDialogBuilder(requireContext())
                         .setTitle(recipe.getMethodName())
                         .setView(box)
@@ -140,5 +145,65 @@ public class ShareFragment extends Fragment {
         });
     }
 
+    private void bindShareFavorite(Button button, Recipe recipe) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            button.setVisibility(View.GONE);
+            return;
+        }
+        recipeRepository.isFavorite(user.getUid(), recipe.getId(), new RecipeRepository.BooleanCallback() {
+            @Override
+            public void onResult(boolean isFavorite) {
+                if (!isAdded()) {
+                    return;
+                }
+                setShareFavoriteState(button, isFavorite);
+                button.setOnClickListener(v -> toggleShareFavorite(button, recipe));
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                if (isAdded()) {
+                    Toast.makeText(requireContext(), R.string.share_favorite_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void setShareFavoriteState(Button button, boolean favorite) {
+        button.setTag(favorite);
+        button.setText(favorite ? R.string.share_remove_favorite : R.string.share_add_favorite);
+    }
+
+    private void toggleShareFavorite(Button button, Recipe recipe) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return;
+        }
+        boolean current = Boolean.TRUE.equals(button.getTag());
+        button.setEnabled(false);
+        recipeRepository.setFavoriteOrRemove(user.getUid(), recipe, current, new RecipeRepository.OperationCallback() {
+            @Override
+            public void onSuccess() {
+                if (!isAdded()) {
+                    return;
+                }
+                button.setEnabled(true);
+                setShareFavoriteState(button, !current);
+                Toast.makeText(requireContext(),
+                        current ? R.string.share_favorite_removed : R.string.share_favorite_added,
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                if (!isAdded()) {
+                    return;
+                }
+                button.setEnabled(true);
+                Toast.makeText(requireContext(), R.string.share_favorite_error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }

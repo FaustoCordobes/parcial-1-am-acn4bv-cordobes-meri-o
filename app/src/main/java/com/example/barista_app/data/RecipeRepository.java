@@ -25,13 +25,32 @@ public class RecipeRepository {
 
         void onError(Exception exception);
     }
+    public interface FavoriteIdsCallback {
+        void onSuccess(List<String> ids);
 
+        void onError(Exception exception);
+    }
+
+    public interface BooleanCallback {
+        void onResult(boolean value);
+
+        void onError(Exception exception);
+    }
+    public interface RecipeCallback {
+        void onSuccess(Recipe recipe);
+
+        void onError(Exception exception);
+    }
     private static final String COLLECTION_RECIPES = "recipes";
     private static final String FIELD_CREATED_AT = "createdAt";
     private static final String FIELD_NOTE = "note";
     private static final String FIELD_SHARED = "shared";
     private final FirebaseFirestore database = FirebaseFirestore.getInstance();
-
+    private static final String COLLECTION_USERS = "users";
+    private static final String SUBCOLLECTION_FAVORITES = "favorites";
+    private static final String FIELD_RECIPE_ID = "recipeId";
+    private static final String FIELD_METHOD_NAME = "methodName";
+    private static final String FIELD_ADDED_AT = "addedAt";
     public void saveRecipe(Recipe recipe, OperationCallback callback) {
         database.collection(COLLECTION_RECIPES)
                 .add(recipe)
@@ -113,7 +132,6 @@ public class RecipeRepository {
                         if (stars != null) {
 
                             total += stars;
-
                         }
                     }
                     int count = snapshot.size();
@@ -153,6 +171,76 @@ public class RecipeRepository {
     private long getLongOrZero(DocumentSnapshot snapshot, String field) {
         Long value = snapshot.getLong(field);
         return value == null ? 0 : value;
+    }
+    public void addFavorite(String uid, Recipe recipe, OperationCallback callback) {
+        Map<String, Object> favorite = new HashMap<>();
+        favorite.put(FIELD_RECIPE_ID, recipe.getId());
+        favorite.put(FIELD_METHOD_NAME, recipe.getMethodName());
+        favorite.put(FIELD_ADDED_AT, System.currentTimeMillis());
+        database.collection(COLLECTION_USERS)
+                .document(uid)
+                .collection(SUBCOLLECTION_FAVORITES)
+                .document(recipe.getId())
+                .set(favorite)
+                .addOnSuccessListener(unused -> callback.onSuccess())
+                .addOnFailureListener(callback::onError);
+    }
+    public void removeFavorite(String uid, String recipeId, OperationCallback callback) {
+        database.collection(COLLECTION_USERS)
+                .document(uid)
+                .collection(SUBCOLLECTION_FAVORITES)
+                .document(recipeId)
+                .delete()
+                .addOnSuccessListener(unused -> callback.onSuccess())
+                .addOnFailureListener(callback::onError);
+    }
+    public void isFavorite(String uid, String recipeId, BooleanCallback callback) {
+        database.collection(COLLECTION_USERS)
+                .document(uid)
+                .collection(SUBCOLLECTION_FAVORITES)
+                .document(recipeId)
+                .get()
+                .addOnSuccessListener(snapshot -> callback.onResult(snapshot.exists()))
+                .addOnFailureListener(callback::onError);
+    }
+
+    public void loadFavoriteIds(String uid, FavoriteIdsCallback callback) {
+        database.collection(COLLECTION_USERS)
+                .document(uid)
+                .collection(SUBCOLLECTION_FAVORITES)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    List<String> ids = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : snapshot) {
+                        ids.add(document.getId());
+                    }
+                    callback.onSuccess(ids);
+                })
+                .addOnFailureListener(callback::onError);
+    }
+    public void loadRecipe(String recipeId, RecipeCallback callback) {
+        database.collection(COLLECTION_RECIPES)
+                .document(recipeId)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    if (!snapshot.exists()) {
+                        callback.onSuccess(null);
+                        return;
+                    }
+                    Recipe recipe = snapshot.toObject(Recipe.class);
+                    if (recipe != null) {
+                        recipe.setId(snapshot.getId());
+                    }
+                    callback.onSuccess(recipe);
+                })
+                .addOnFailureListener(callback::onError);
+    }
+    public void setFavoriteOrRemove(String uid, Recipe recipe, boolean currentlyFavorite, OperationCallback callback) {
+        if (currentlyFavorite) {
+            removeFavorite(uid, recipe.getId(), callback);
+        } else {
+            addFavorite(uid, recipe, callback);
+        }
     }
 
 }

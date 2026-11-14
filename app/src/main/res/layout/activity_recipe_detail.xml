@@ -114,6 +114,15 @@
                 android:textColor="@color/white" />
 
             <Button
+                android:id="@+id/recipeDetailFavoriteButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_card"
+                android:backgroundTint="@color/accent_caramel"
+                android:textColor="@color/white" />
+
+
+            <Button
                 android:id="@+id/recipeDetailPublishButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

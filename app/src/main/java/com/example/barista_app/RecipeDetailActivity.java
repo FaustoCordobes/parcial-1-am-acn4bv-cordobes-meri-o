@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.barista_app.data.RecipeRepository;
+import com.example.barista_app.models.Recipe;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,7 +38,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
     private String ownerId;
     private boolean shared;
     private Button publishButton;
-
+    private Button favoriteButton;
+    private boolean favorite;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +89,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
         saveNoteButton.setOnClickListener(v -> saveNote());
         deleteButton.setOnClickListener(v -> confirmDelete());
         backButton.setOnClickListener(v -> finish());
+
+        favoriteButton = findViewById(R.id.recipeDetailFavoriteButton);
+        favoriteButton.setOnClickListener(v -> toggleFavorite());
+        refreshFavoriteState();
     }
 
     private void saveNote() {
@@ -178,6 +184,62 @@ public class RecipeDetailActivity extends AppCompatActivity {
         } catch (ActivityNotFoundException exception) {
             send.setPackage(null);
             startActivity(Intent.createChooser(send, getString(R.string.share_chooser_title)));
+        }
+    }
+    private void refreshFavoriteState() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            favoriteButton.setVisibility(View.GONE);
+            return;
+        }
+        recipeRepository.isFavorite(user.getUid(), recipeId, new RecipeRepository.BooleanCallback() {
+            @Override
+            public void onResult(boolean value) {
+                favorite = value;
+                updateFavoriteButton();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                Toast.makeText(RecipeDetailActivity.this, R.string.recipe_favorite_error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void updateFavoriteButton() {
+        favoriteButton.setText(favorite ? R.string.recipe_remove_favorite : R.string.recipe_add_favorite);
+    }
+
+    private void toggleFavorite() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return;
+        }
+        favoriteButton.setEnabled(false);
+        RecipeRepository.OperationCallback callback = new RecipeRepository.OperationCallback() {
+            @Override
+            public void onSuccess() {
+                favorite = !favorite;
+                updateFavoriteButton();
+                favoriteButton.setEnabled(true);
+                Toast.makeText(RecipeDetailActivity.this,
+                        favorite ? R.string.recipe_favorite_added : R.string.recipe_favorite_removed,
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                favoriteButton.setEnabled(true);
+                Toast.makeText(RecipeDetailActivity.this, R.string.recipe_favorite_error, Toast.LENGTH_LONG).show();
+            }
+        };
+        if (favorite) {
+            recipeRepository.removeFavorite(user.getUid(), recipeId, callback);
+        } else {
+            Recipe recipe = new Recipe();
+            recipe.setId(recipeId);
+            recipe.setMethodName(getIntent().getStringExtra(EXTRA_METHOD_NAME));
+            recipeRepository.addFavorite(user.getUid(), recipe, callback);
         }
     }
 

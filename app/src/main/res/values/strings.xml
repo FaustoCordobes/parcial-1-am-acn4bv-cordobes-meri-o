@@ -163,5 +163,16 @@
     <string name="recipe_delete_dialog_confirm">Eliminar</string>
     <string name="recipe_delete_dialog_cancel">Cancelar</string>
 
+    <string name="share_add_favorite">Añadir a favoritos</string>
+    <string name="share_remove_favorite">Quitar de favoritos</string>
+    <string name="share_favorite_added">Receta añadida a favoritos</string>
+    <string name="share_favorite_removed">Receta quitada de favoritos</string>
+    <string name="share_favorite_error">No se pudo actualizar favoritos</string>
+
+    <string name="recipe_add_favorite">Añadir a favoritos</string>
+    <string name="recipe_remove_favorite">Quitar de favoritos</string>
+    <string name="recipe_favorite_added">Receta añadida a favoritos</string>
+    <string name="recipe_favorite_removed">Receta quitada de favoritos</string>
+    <string name="recipe_favorite_error">No se pudo actualizar favoritos</string>
 
 </resources>
