@@ -3,6 +3,7 @@ package com.example.barista_app.fragments;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,14 +21,20 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.barista_app.ImageLoader;
 import com.example.barista_app.LoginActivity;
 import com.example.barista_app.MethodDetailActivity;
 import com.example.barista_app.R;
+import com.example.barista_app.data.ImageUploader;
+import com.example.barista_app.data.MethodImages;
 import com.example.barista_app.data.MethodRepository;
 import com.example.barista_app.data.RecipeRepository;
 import com.example.barista_app.models.CoffeeMethod;
@@ -65,6 +72,18 @@ public class CoffeeOrderFragment extends Fragment {
 
     private final MethodRepository methodRepository = new MethodRepository();
     private final RecipeRepository recipeRepository = new RecipeRepository();
+    private ImageView recipePhotoPreview;
+    private Uri selectedPhotoUri;
+    private final ActivityResultLauncher<PickVisualMediaRequest> photoPicker =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                if (uri == null) {
+                    return;
+                }
+                selectedPhotoUri = uri;
+                recipePhotoPreview.setImageURI(uri);
+                recipePhotoPreview.setVisibility(View.VISIBLE);
+            });
+
     private CoffeeMethod selectedMethod;
     private int selectedAmount;
     private String selectedIntensity;
@@ -116,6 +135,14 @@ public class CoffeeOrderFragment extends Fragment {
         tipTextView = view.findViewById(R.id.tipTextView);
         stopwatchDisplayTextView = view.findViewById(R.id.stopwatchDisplayTextView);
         stopwatchStartButton = view.findViewById(R.id.stopwatchStartButton);
+
+        recipePhotoPreview = view.findViewById(R.id.recipePhotoPreview);
+        Button recipePickPhotoButton = view.findViewById(R.id.recipePickPhotoButton);
+        recipePickPhotoButton.setOnClickListener(v -> photoPicker.launch(
+                new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build()));
+
 
         Button step2BackButton = view.findViewById(R.id.step2BackButton);
         Button step2ContinueButton = view.findViewById(R.id.step2ContinueButton);
@@ -196,7 +223,9 @@ public class CoffeeOrderFragment extends Fragment {
 
         ImageView image = new ImageView(requireContext());
         image.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize));
-        image.setImageResource(getImageForMethod(method.getId()));
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ImageLoader.load(image, MethodImages.urlFor(method.getId()), getImageForMethod(method.getId()));
+
 
         LinearLayout textColumn = new LinearLayout(requireContext());
         textColumn.setOrientation(LinearLayout.VERTICAL);
@@ -421,38 +450,66 @@ public class CoffeeOrderFragment extends Fragment {
                     if(!isAdded()) {
                         return;
                     }
-                    Recipe recipe = new Recipe();
-                    recipe.setOwnerId(user.getUid());
-                    recipe.setUserName(userDocument.getString("username"));
-                    recipe.setShared(false);
-                    recipe.setMethodId(selectedMethod.getId());
-                    recipe.setMethodName(selectedMethod.getName());
-                    recipe.setWaterMl(selectedAmount);
-                    recipe.setCoffeeGrams(coffeeGrams);
-                    recipe.setIntensity(selectedIntensity);
-                    recipe.setGrind(selectedMethod.getGrind());
-                    recipe.setNote("");
-                    recipe.setCreatedAt(System.currentTimeMillis());
-
-                    recipeRepository.saveRecipe(recipe, new RecipeRepository.OperationCallback() {
+                    String userName = userDocument.getString("username");
+                    if (selectedPhotoUri == null) {
+                        writeRecipe(user, userName, coffeeGrams, null);
+                        return;
+                    }
+                    ImageUploader.upload(requireContext(), selectedPhotoUri, new ImageUploader.UploadCallback() {
                         @Override
-                        public void onSuccess() {
-                            if (!isAdded()) {
-                                return;
-                            }
-                            Toast.makeText(requireContext(), R.string.msg_added_to_ideal, Toast.LENGTH_SHORT).show();
+                        public void onSuccess(String url) {
+                            android.util.Log.d("Recipe", "upload ok, isAdded=" + isAdded());
+                            writeRecipe(user, userName, coffeeGrams, url);
                         }
 
                         @Override
                         public void onError(Exception exception) {
-                            if (!isAdded()) {
-                                return;
+                            if (isAdded()) {
+                                Toast.makeText(requireContext(), R.string.recipe_upload_error, Toast.LENGTH_LONG).show();
                             }
-                            Toast.makeText(requireContext(), R.string.recipe_save_error, Toast.LENGTH_LONG).show();
+                            writeRecipe(user, userName, coffeeGrams, null);
                         }
                     });
+
                 });
     }
+
+    private void writeRecipe(FirebaseUser user, String userName, int coffeeGrams, String imageUrl) {
+        Recipe recipe = new Recipe();
+        recipe.setOwnerId(user.getUid());
+        recipe.setUserName(userName);
+        recipe.setShared(false);
+        recipe.setMethodId(selectedMethod.getId());
+        recipe.setMethodName(selectedMethod.getName());
+        recipe.setWaterMl(selectedAmount);
+        recipe.setCoffeeGrams(coffeeGrams);
+        recipe.setIntensity(selectedIntensity);
+        recipe.setGrind(selectedMethod.getGrind());
+        recipe.setNote("");
+        recipe.setCreatedAt(System.currentTimeMillis());
+        recipe.setImageUrl(imageUrl);
+        selectedPhotoUri = null;
+        recipePhotoPreview.setVisibility(View.GONE);
+
+        recipeRepository.saveRecipe(recipe, new RecipeRepository.OperationCallback() {
+            @Override
+            public void onSuccess() {
+                if (!isAdded()) {
+                    return;
+                }
+                Toast.makeText(requireContext(), R.string.msg_added_to_ideal, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                if (!isAdded()) {
+                    return;
+                }
+                Toast.makeText(requireContext(), R.string.recipe_save_error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
     private void updateGrindRecommendation(boolean isWholeBean) {
         if (!isWholeBean) {

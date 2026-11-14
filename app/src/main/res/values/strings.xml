@@ -95,7 +95,7 @@
     <string name="share_placeholder">Acá vas a poder compartir tus recetas con amigos.</string>
     <string name="profile_title">Mi perfil</string>
     <string name="profile_placeholder">Acá vas a ver tus datos y preferencias.</string>
-    <string name="ideal_title">Mi Café Ideal</string>
+    <string name="ideal_title">Favoritos</string>
     <string name="ideal_placeholder">Acá vas a ver todas tus recetas guardadas.</string>
 
     <string name="profile_no_name">Sin nombre</string>
@@ -174,5 +174,10 @@
     <string name="recipe_favorite_added">Receta añadida a favoritos</string>
     <string name="recipe_favorite_removed">Receta quitada de favoritos</string>
     <string name="recipe_favorite_error">No se pudo actualizar favoritos</string>
+
+    <string name="recipe_pick_photo">Elegir foto</string>
+    <string name="recipe_photo_preview_description">Vista previa de la foto de la receta</string>
+    <string name="recipe_upload_error">No se pudo subir la foto. La receta se guarda sin foto.</string>
+    <string name="recipe_item_image_description">Foto de la receta</string>
 
 </resources>

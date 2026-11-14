@@ -84,6 +84,23 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/recipePickPhotoButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:text="@string/recipe_pick_photo" />
+
+    <ImageView
+        android:id="@+id/recipePhotoPreview"
+        android:layout_width="@dimen/recipe_photo_preview_size"
+        android:layout_height="@dimen/recipe_photo_preview_size"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing_card"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:contentDescription="@string/recipe_photo_preview_description" />
+
+    <Button
         android:id="@+id/addToIdealButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

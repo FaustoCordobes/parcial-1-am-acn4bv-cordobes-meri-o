@@ -17,10 +17,15 @@ public class MethodRepository {
 
     private static final String COLLECTION_METHODS = "coffee_methods";
     private static final String FIELD_ORDER = "order";
+    private static List<CoffeeMethod> cachedMethods;
 
     private final FirebaseFirestore database = FirebaseFirestore.getInstance();
 
     public void loadMethods(MethodsCallback callback) {
+        if (cachedMethods != null) {
+            callback.onSuccess(cachedMethods);
+            return;
+        }
         database.collection(COLLECTION_METHODS)
                 .orderBy(FIELD_ORDER)
                 .get()
@@ -31,8 +36,10 @@ public class MethodRepository {
                         method.setId(document.getId());
                         methods.add(method);
                     }
+                    cachedMethods = methods;
                     callback.onSuccess(methods);
                 })
                 .addOnFailureListener(callback::onError);
     }
+
 }

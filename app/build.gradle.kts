@@ -1,6 +1,11 @@
+import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
+}
+val localProps = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
 }
 
 android {
@@ -9,6 +14,9 @@ android {
         version = release(37)
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
     defaultConfig {
         applicationId = "com.example.barista_app"
         minSdk = 24
@@ -17,6 +25,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "CLOUD_NAME", "\"${localProps.getProperty("cloud.name")}\"")
+        buildConfigField("String", "UPLOAD_PRESET", "\"${localProps.getProperty("upload.preset")}\"")
     }
 
     buildTypes {

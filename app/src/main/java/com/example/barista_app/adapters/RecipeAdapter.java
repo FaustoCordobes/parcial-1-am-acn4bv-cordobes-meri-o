@@ -4,12 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.barista_app.ImageLoader;
 import com.example.barista_app.R;
+import com.example.barista_app.data.MethodImages;
 import com.example.barista_app.models.Recipe;
 
 import java.util.ArrayList;
@@ -59,6 +62,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         private final TextView noteTextView;
         private final TextView authorTextView;
         private final TextView ratingTextView;
+        private final ImageView recipeImage;
         RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.recipeItemName);
@@ -66,6 +70,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             noteTextView = itemView.findViewById(R.id.recipeItemNote);
             authorTextView = itemView.findViewById(R.id.recipeItemAuthor);
             ratingTextView = itemView.findViewById(R.id.recipeItemRating);
+            recipeImage = itemView.findViewById(R.id.recipeItemImage);
         }
 
         void bind(Recipe recipe) {
@@ -94,6 +99,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 double average = (double) recipe.getRatingSum() / count;
                 ratingTextView.setText(context.getString(R.string.share_average_format, average, (int) count));
             }
+            String imageUrl = recipe.getImageUrl();
+            if (imageUrl == null || imageUrl.isEmpty()) {
+                imageUrl = MethodImages.urlFor(recipe.getMethodId());
+            }
+            ImageLoader.load(recipeImage, imageUrl, R.drawable.ic_coffee_generic);
 
             itemView.setOnClickListener(v -> listener.onRecipeClick(recipe));
             itemView.setOnLongClickListener(v -> {

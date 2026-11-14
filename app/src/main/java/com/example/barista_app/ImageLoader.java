@@ -1,8 +1,10 @@
 package com.example.barista_app;
 
+import android.graphics.drawable.ColorDrawable;
 import android.widget.ImageView;
 
 import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 public final class ImageLoader {
@@ -22,7 +24,7 @@ public final class ImageLoader {
 
         Glide.with(target)
                 .load(url)
-                .placeholder(fallback)
+                .placeholder(new ColorDrawable(ContextCompat.getColor(target.getContext(), R.color.card_background)))
                 .error(fallback)
                 .into(target);
     }

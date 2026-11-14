@@ -16,4 +16,6 @@
     <dimen name="spacing_small">4dp</dimen>
     <dimen name="nav_bar_space">96dp</dimen>
 
-    </resources>
+    <dimen name="recipe_photo_preview_size">120dp</dimen>
+    <dimen name="recipe_item_image_height">160dp</dimen>
+</resources>

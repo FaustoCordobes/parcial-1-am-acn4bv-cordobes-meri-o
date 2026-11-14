@@ -119,6 +119,17 @@ public class Recipe {
         this.shared = shared;
     }
 
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+
     public long getRatingSum() { return ratingSum; }
     public void setRatingSum(long ratingSum) { this.ratingSum = ratingSum; }
 
