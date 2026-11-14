@@ -126,4 +126,10 @@
     <string name="recipe_save_note">Guardar nota</string>
     <string name="recipe_note_saved">Nota guardada</string>
     <string name="recipe_delete_button">Eliminar receta</string>
+    <string name="login_username_hint">Nombre de usuario</string>
+    <string name="login_error_empty_username">Ingresá un nombre de usuario para continuar</string>
+    <string name="login_error_username_taken">Este nombre no esta disponible</string>
+
+    <string name="profile_username_format">@%1$s</string>
+
 </resources>

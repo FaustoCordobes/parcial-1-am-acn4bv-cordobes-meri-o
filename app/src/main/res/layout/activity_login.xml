@@ -49,6 +49,18 @@
             android:textSize="@dimen/text_size_label" />
 
         <EditText
+            android:id="@+id/login_username_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_spacing"
+            android:autofillHints="username"
+            android:hint="@string/login_username_hint"
+            android:inputType="text"
+            android:visibility="gone"
+            android:textColor="@color/primary_color"
+            android:textColorHint="@color/text_secondary_light" />
+
+        <EditText
             android:id="@+id/login_email_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
