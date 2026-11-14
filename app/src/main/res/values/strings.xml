@@ -132,4 +132,22 @@
 
     <string name="profile_username_format">@%1$s</string>
 
+    <string name="recipe_publish">Publicar en Compartir</string>
+    <string name="recipe_unpublish">Quitar de Compartir</string>
+    <string name="recipe_published">Receta publicada en Compartir</string>
+    <string name="recipe_unpublished">Receta quitada de Compartir</string>
+    <string name="recipe_whatsapp">Compartir por WhatsApp</string>
+    <string name="recipe_share_text">Mi receta de %1$s: %2$d ml de agua · %3$d g de café · %4$s · molienda %5$s</string>
+    <string name="recipe_share_note">Nota: %1$s</string>
+    <string name="share_chooser_title">Compartir receta con</string>
+
+    <string name="share_empty">Todavía no hay recetas publicadas. Publicá una desde el detalle de tu receta.</string>
+    <string name="share_no_ratings">Todavía nadie votó esta receta</string>
+    <string name="share_average_format">Promedio: %1$.1f ★ (%2$d votos)</string>
+    <string name="share_rate_save">Votar</string>
+    <string name="share_cancel">Cancelar</string>
+    <string name="share_rated">Gracias por tu voto</string>
+
+
+
 </resources>

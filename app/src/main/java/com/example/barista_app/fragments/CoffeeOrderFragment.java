@@ -34,6 +34,7 @@ import com.example.barista_app.models.CoffeeMethod;
 import com.example.barista_app.models.Recipe;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 import java.util.Locale;
@@ -406,35 +407,51 @@ public class CoffeeOrderFragment extends Fragment {
     }
 
     private void saveRecipeToFirestore(int coffeeGrams) {
-        Recipe recipe = new Recipe();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        recipe.setUserName(user != null ? user.getEmail() : null);
-        recipe.setMethodId(selectedMethod.getId());
-        recipe.setMethodName(selectedMethod.getName());
-        recipe.setWaterMl(selectedAmount);
-        recipe.setCoffeeGrams(coffeeGrams);
-        recipe.setIntensity(selectedIntensity);
-        recipe.setGrind(selectedMethod.getGrind());
-        recipe.setNote("");
-        recipe.setCreatedAt(System.currentTimeMillis());
+        if(user == null) {
+            Toast.makeText(requireContext(), R.string.recipe_save_error, Toast.LENGTH_LONG).show();
+            return;
+        }
 
-        recipeRepository.saveRecipe(recipe, new RecipeRepository.OperationCallback() {
-            @Override
-            public void onSuccess() {
-                if (!isAdded()) {
-                    return;
-                }
-                Toast.makeText(requireContext(), R.string.msg_added_to_ideal, Toast.LENGTH_SHORT).show();
-            }
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(user.getUid())
+                .get()
+                .addOnSuccessListener(userDocument -> {
+                    if(!isAdded()) {
+                        return;
+                    }
+                    Recipe recipe = new Recipe();
+                    recipe.setOwnerId(user.getUid());
+                    recipe.setUserName(userDocument.getString("username"));
+                    recipe.setShared(false);
+                    recipe.setMethodId(selectedMethod.getId());
+                    recipe.setMethodName(selectedMethod.getName());
+                    recipe.setWaterMl(selectedAmount);
+                    recipe.setCoffeeGrams(coffeeGrams);
+                    recipe.setIntensity(selectedIntensity);
+                    recipe.setGrind(selectedMethod.getGrind());
+                    recipe.setNote("");
+                    recipe.setCreatedAt(System.currentTimeMillis());
 
-            @Override
-            public void onError(Exception exception) {
-                if (!isAdded()) {
-                    return;
-                }
-                Toast.makeText(requireContext(), R.string.recipe_save_error, Toast.LENGTH_LONG).show();
-            }
-        });
+                    recipeRepository.saveRecipe(recipe, new RecipeRepository.OperationCallback() {
+                        @Override
+                        public void onSuccess() {
+                            if (!isAdded()) {
+                                return;
+                            }
+                            Toast.makeText(requireContext(), R.string.msg_added_to_ideal, Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            if (!isAdded()) {
+                                return;
+                            }
+                            Toast.makeText(requireContext(), R.string.recipe_save_error, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                });
     }
 
     private void updateGrindRecommendation(boolean isWholeBean) {

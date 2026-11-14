@@ -8,12 +8,27 @@
     android:padding="@dimen/spacing_card">
 
     <TextView
+        android:id="@+id/recipeItemAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_secondary_dark"
+        android:textSize="@dimen/text_size_label" />
+
+    <TextView
         android:id="@+id/recipeItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/coffee_brown"
         android:textSize="@dimen/text_size_label"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/recipeItemRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/accent_caramel_dark"
+        android:textSize="@dimen/text_size_label" />
+
 
     <TextView
         android:id="@+id/recipeItemSummary"

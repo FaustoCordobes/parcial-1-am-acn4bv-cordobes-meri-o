@@ -58,19 +58,28 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         private final TextView nameTextView;
         private final TextView summaryTextView;
         private final TextView noteTextView;
-
+        private final TextView authorTextView;
+        private final TextView ratingTextView;
         RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.recipeItemName);
             summaryTextView = itemView.findViewById(R.id.recipeItemSummary);
             noteTextView = itemView.findViewById(R.id.recipeItemNote);
+            authorTextView = itemView.findViewById(R.id.recipeItemAuthor);
+            ratingTextView = itemView.findViewById(R.id.recipeItemRating);
         }
 
         void bind(Recipe recipe) {
             Context context = itemView.getContext();
+            String author = recipe.getUserName();
+            if (author == null || author.isEmpty()) {
+                authorTextView.setVisibility(View.GONE);
+            } else {
+                authorTextView.setText(context.getString(R.string.profile_username_format, author));
+                authorTextView.setVisibility(View.VISIBLE);
+            }
             nameTextView.setText(recipe.getMethodName());
-            summaryTextView.setText(context.getString(R.string.recipe_summary,
-                    recipe.getWaterMl(), recipe.getCoffeeGrams(), recipe.getIntensity()));
+            summaryTextView.setText(context.getString(R.string.recipe_summary, recipe.getWaterMl(), recipe.getCoffeeGrams(), recipe.getIntensity()));
 
             String note = recipe.getNote();
             if (note == null || note.isEmpty()) {
@@ -78,6 +87,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             } else {
                 noteTextView.setText(context.getString(R.string.recipe_note_display, note));
                 noteTextView.setVisibility(View.VISIBLE);
+            }
+            long count = recipe.getRatingCount();
+            if (count == 0) {
+                ratingTextView.setText(context.getString(R.string.share_no_ratings));
+            } else {
+                double average = (double) recipe.getRatingSum() / count;
+                ratingTextView.setText(context.getString(R.string.share_average_format, average, (int) count));
             }
 
             itemView.setOnClickListener(v -> listener.onRecipeClick(recipe));

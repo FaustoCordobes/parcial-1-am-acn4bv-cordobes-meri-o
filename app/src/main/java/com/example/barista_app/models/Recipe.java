@@ -14,7 +14,10 @@ public class Recipe {
     private String grind;
     private String note;
     private long createdAt;
-
+    private String ownerId;
+    private boolean shared;
+    private long ratingSum;
+    private long ratingCount;
     public Recipe() {
     }
 
@@ -99,4 +102,26 @@ public class Recipe {
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
     }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public boolean isShared() {
+        return shared;
+    }
+
+    public void setShared(boolean shared) {
+        this.shared = shared;
+    }
+
+    public long getRatingSum() { return ratingSum; }
+    public void setRatingSum(long ratingSum) { this.ratingSum = ratingSum; }
+
+    public long getRatingCount() { return ratingCount; }
+    public void setRatingCount(long ratingCount) { this.ratingCount = ratingCount; }
 }

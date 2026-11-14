@@ -114,6 +114,23 @@
                 android:textColor="@color/white" />
 
             <Button
+                android:id="@+id/recipeDetailPublishButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_card"
+                android:backgroundTint="@color/primary_color"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/recipeDetailWhatsappButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_card"
+                android:backgroundTint="@color/accent_caramel_dark"
+                android:text="@string/recipe_whatsapp"
+                android:textColor="@color/white" />
+
+            <Button
                 android:id="@+id/recipeDetailDeleteButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

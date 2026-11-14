@@ -86,6 +86,8 @@ public class IdealRecipesFragment extends Fragment implements RecipeAdapter.OnRe
         intent.putExtra(RecipeDetailActivity.EXTRA_INTENSITY, recipe.getIntensity());
         intent.putExtra(RecipeDetailActivity.EXTRA_GRIND, recipe.getGrind());
         intent.putExtra(RecipeDetailActivity.EXTRA_NOTE, recipe.getNote());
+        intent.putExtra(RecipeDetailActivity.EXTRA_OWNER_ID, recipe.getOwnerId());
+        intent.putExtra(RecipeDetailActivity.EXTRA_SHARED, recipe.isShared());
         startActivity(intent);
     }
 
