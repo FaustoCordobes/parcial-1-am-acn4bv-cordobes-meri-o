@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.barista_app.data.RecipeRepository;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -84,7 +85,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         noteInput.setText(getIntent().getStringExtra(EXTRA_NOTE));
 
         saveNoteButton.setOnClickListener(v -> saveNote());
-        deleteButton.setOnClickListener(v -> deleteRecipe());
+        deleteButton.setOnClickListener(v -> confirmDelete());
         backButton.setOnClickListener(v -> finish());
     }
 
@@ -118,6 +119,16 @@ public class RecipeDetailActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void confirmDelete() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.recipe_delete_dialog_title)
+                .setMessage(R.string.recipe_delete_dialog_message)
+                .setNegativeButton(R.string.recipe_delete_dialog_cancel, null)
+                .setPositiveButton(R.string.recipe_delete_dialog_confirm, (dialog, which) -> deleteRecipe())
+                .show();
+    }
+
 
     private void updatePublishButton() {
         publishButton.setText(shared ? R.string.recipe_unpublish : R.string.recipe_publish);

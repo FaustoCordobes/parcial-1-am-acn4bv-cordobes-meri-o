@@ -25,7 +25,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     private final List<Recipe> recipes = new ArrayList<>();
     private final OnRecipeActionListener listener;
-
     public RecipeAdapter(OnRecipeActionListener listener) {
         this.listener = listener;
     }

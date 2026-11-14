@@ -20,7 +20,13 @@ import com.example.barista_app.adapters.RecipeAdapter;
 import com.example.barista_app.data.RecipeRepository;
 import com.example.barista_app.models.Recipe;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class IdealRecipesFragment extends Fragment implements RecipeAdapter.OnRecipeActionListener {
@@ -75,6 +81,8 @@ public class IdealRecipesFragment extends Fragment implements RecipeAdapter.OnRe
             }
         });
     }
+
+
 
     @Override
     public void onRecipeClick(Recipe recipe) {

@@ -98,6 +98,13 @@
     <string name="ideal_title">Mi Café Ideal</string>
     <string name="ideal_placeholder">Acá vas a ver todas tus recetas guardadas.</string>
 
+    <string name="profile_no_name">Sin nombre</string>
+    <string name="profile_no_email">Sin email</string>
+    <string name="profile_recipes_count">Recetas guardadas: %1$d</string>
+    <string name="profile_recipes_title">Mis recetas</string>
+    <string name="profile_no_recipes">Todavía no guardaste recetas.</string>
+
+
     <string name="methods_loading">Cargando cafeteras…</string>
     <string name="methods_error">No se pudieron cargar las cafeteras. Revisá tu conexión.</string>
     <string name="grind_recommendation">Para %1$s necesitás molienda %2$s</string>
@@ -148,6 +155,13 @@
     <string name="share_cancel">Cancelar</string>
     <string name="share_rated">Gracias por tu voto</string>
 
+    <string name="profile_delete_button">Eliminar</string>
+    <string name="profile_logout">Cerrar sesión</string>
+
+    <string name="recipe_delete_dialog_title">¿Eliminar receta?</string>
+    <string name="recipe_delete_dialog_message">Esta acción no se puede deshacer.</string>
+    <string name="recipe_delete_dialog_confirm">Eliminar</string>
+    <string name="recipe_delete_dialog_cancel">Cancelar</string>
 
 
 </resources>
