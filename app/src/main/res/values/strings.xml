@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">barista-app</string>
+    <string name="app_name">Barista de bolsillo</string>
     <string name="cron_metro">Cronómetro ↑</string>
     <string name="cuenta_regresiva">Cuenta regresiva ↓</string>
     <string name="iniciar">Iniciar</string>
@@ -180,4 +180,43 @@
     <string name="recipe_upload_error">No se pudo subir la foto. La receta se guarda sin foto.</string>
     <string name="recipe_item_image_description">Foto de la receta</string>
 
+
+
+    <string name="header_logo_text">Barista\nde bolsillo</string>
+    <string name="header_avatar_description">Mi perfil</string>
+    <string name="login_hero_title">Tu café,\na tu medida.</string>
+    <string name="profile_settings_title">Ajustes</string>
+    <string name="profile_dark_mode">Modo oscuro</string>
+    <string name="profile_avatar_description">Foto de perfil</string>
+    <string name="share_subtitle">Recetas publicadas por la comunidad.</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_share">Compartir</string>
+    <string name="nav_favorite">Favoritos</string>
+    <string name="nav_me">Yo</string>
+    <string name="login_or">o</string>
+    <string name="login_footer">Barista de bolsillo</string>
+    <string name="profile_stat_recipes">Recetas</string>
+    <string name="profile_stat_favorites">Favoritas</string>
+    <string name="profile_stat_average">Promedio</string>
+    <string name="profile_average_format">%1$.1f</string>
+    <string name="profile_no_average">—</string>
+    <string name="profile_row_summary">%1$d ml · %2$d g · %3$s</string>
+    <string name="profile_row_summary_shared">%1$d ml · %2$d g · %3$s · Publicada</string>
+    <string name="profile_delete_description">Eliminar receta</string>
+    <string name="home_title">Preparar</string>
+    <string name="home_subtitle">Elegí tu método de preparación.</string>
+    <string name="method_card_info_description">Ver detalle del método</string>
+    <string name="method_card_detail">Detalle</string>
+    <string name="home_activity_title">Tu actividad</string>
+    <string name="home_recent_title">Recientes</string>
+    <string name="home_see_all">Ver todas</string>
+    <string name="home_recent_rating">★ %1$.1f</string>
+    <string name="step_label_2">Paso 2 de 4</string>
+    <string name="step_label_3">Paso 3 de 4</string>
+    <string name="step_label_4">Paso 4 de 4</string>
+    <string name="ideal_subtitle">Tus recetas guardadas y las que te gustaron.</string>
+    <string name="timer_back_description">Volver</string>
+    <string name="grind_blocked_hint">Molelo primero y elegí «Molido» para continuar.</string>
+    <string name="recipe_back_description">Volver</string>
+    <string name="recipe_share_signature">Creado con %1$s</string>
 </resources>

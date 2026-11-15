@@ -12,8 +12,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="8dp"
-        android:paddingBottom="24dp">
+        android:paddingTop="@dimen/spacing_card"
+        android:paddingBottom="@dimen/nav_bar_space">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_screen"
+            android:layout_marginEnd="@dimen/spacing_screen"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/timer_back"
+                android:layout_width="@dimen/profile_icon_button_size"
+                android:layout_height="@dimen/profile_icon_button_size"
+                android:background="@drawable/bg_icon_button"
+                android:contentDescription="@string/timer_back_description"
+                android:padding="9dp"
+                android:src="@drawable/ic_back"
+                android:tint="?attr/colorOnSurfaceVariant" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_card"
+                android:layout_weight="1"
+                android:text="@string/calculadora_y_temporizador"
+                style="@style/Text.Barista.Title" />
+        </LinearLayout>
 
         <include
             android:id="@+id/timer_component"

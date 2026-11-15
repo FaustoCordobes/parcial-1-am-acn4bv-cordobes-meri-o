@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="@dimen/nav_tab_height"
+    android:layout_weight="1"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/nav_tab_padding_h"
+    android:paddingEnd="@dimen/nav_tab_padding_h">
+
+    <ImageView
+        android:id="@+id/nav_tab_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/nav_tab_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/nav_tab_gap"
+        android:maxLines="1"
+        style="@style/Text.Barista.Nav"
+        android:visibility="gone" />
+</LinearLayout>

@@ -10,11 +10,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ideal_title"
-        android:textColor="@color/secondary_color"
-        android:textSize="@dimen/text_size_title"
-        android:textStyle="bold"
+        style="@style/Text.Barista.Display"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ideal_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:text="@string/ideal_subtitle"
+        style="@style/Text.Barista.Subtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ideal_title" />
 
     <TextView
         android:id="@+id/ideal_empty"
@@ -22,12 +31,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_card"
         android:text="@string/ideal_empty"
-        android:textColor="@color/text_secondary_dark"
-        android:textSize="@dimen/text_size_label"
+        style="@style/Text.Barista.Subtitle"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ideal_title" />
+        app:layout_constraintTop_toBottomOf="@id/ideal_subtitle" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ideal_recipes_list"

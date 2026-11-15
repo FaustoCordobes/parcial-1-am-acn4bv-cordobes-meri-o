@@ -31,8 +31,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.barista_app.ImageLoader;
 import com.example.barista_app.LoginActivity;
+import com.example.barista_app.MainActivity;
 import com.example.barista_app.MethodDetailActivity;
 import com.example.barista_app.R;
+import com.example.barista_app.RecipeDetailActivity;
+import com.example.barista_app.components.ButtonCalcTimer;
 import com.example.barista_app.data.ImageUploader;
 import com.example.barista_app.data.MethodImages;
 import com.example.barista_app.data.MethodRepository;
@@ -42,7 +45,10 @@ import com.example.barista_app.models.Recipe;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -74,6 +80,12 @@ public class CoffeeOrderFragment extends Fragment {
     private final RecipeRepository recipeRepository = new RecipeRepository();
     private ImageView recipePhotoPreview;
     private Uri selectedPhotoUri;
+    private TextView statRecipesTextView;
+    private TextView statFavoritesTextView;
+    private TextView statAverageTextView;
+    private TextView recentEmptyTextView;
+    private LinearLayout recentContainer;
+
     private final ActivityResultLauncher<PickVisualMediaRequest> photoPicker =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                 if (uri == null) {
@@ -91,6 +103,7 @@ public class CoffeeOrderFragment extends Fragment {
     private final Handler stopwatchHandler = new Handler(Looper.getMainLooper());
     private int elapsedSeconds = 0;
     private boolean isStopwatchRunning = false;
+    private Button step3ContinueButton;
     private final Runnable stopwatchRunnable = new Runnable() {
         @Override
         public void run() {
@@ -147,7 +160,7 @@ public class CoffeeOrderFragment extends Fragment {
         Button step2BackButton = view.findViewById(R.id.step2BackButton);
         Button step2ContinueButton = view.findViewById(R.id.step2ContinueButton);
         Button step3BackButton = view.findViewById(R.id.step3BackButton);
-        Button step3ContinueButton = view.findViewById(R.id.step3ContinueButton);
+        step3ContinueButton = view.findViewById(R.id.step3ContinueButton);
         Button stopwatchResetButton = view.findViewById(R.id.stopwatchResetButton);
         Button addToIdealButton = view.findViewById(R.id.addToIdealButton);
         Button step4BackButton = view.findViewById(R.id.step4BackButton);
@@ -168,6 +181,23 @@ public class CoffeeOrderFragment extends Fragment {
 
         grindStatusRadioGroup.setOnCheckedChangeListener((group, checkedId) ->
                 updateGrindRecommendation(checkedId == R.id.wholeBeanRadioButton));
+        statRecipesTextView = view.findViewById(R.id.stat_recipes);
+        statFavoritesTextView = view.findViewById(R.id.stat_favorites);
+        statAverageTextView = view.findViewById(R.id.stat_average);
+        recentEmptyTextView = view.findViewById(R.id.home_recent_empty);
+        recentContainer = view.findViewById(R.id.home_recent_container);
+        view.findViewById(R.id.home_see_all).setOnClickListener(v -> ((MainActivity) requireActivity()).selectTab(R.id.nav_me));
+        ButtonCalcTimer calcButton = view.findViewById(R.id.btn_open_timer_calc);
+        calcButton.setOnButtonClickListener(() ->requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new TimerCalculatorFragment())
+                        .addToBackStack(null)
+                        .commit());
+
+        view.findViewById(R.id.step2DetailLink).setOnClickListener(v -> {
+            if (selectedMethod != null) {
+                openMethodDetail(selectedMethod);
+            }
+        });
 
         loadMethods();
     }
@@ -176,6 +206,109 @@ public class CoffeeOrderFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         stopwatchHandler.removeCallbacks(stopwatchRunnable);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadActivity();
+    }
+
+    private void loadActivity() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return;
+        }
+
+        FirebaseFirestore.getInstance()
+                .collection("recipes")
+                .whereEqualTo("ownerId", user.getUid())
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    if (!isAdded()) {
+                        return;
+                    }
+                    List<Recipe> mine = new ArrayList<>();
+                    long ratingSum = 0;
+                    long ratingCount = 0;
+                    for (QueryDocumentSnapshot document : snapshot) {
+                        Recipe recipe = document.toObject(Recipe.class);
+                        recipe.setId(document.getId());
+                        ratingSum += recipe.getRatingSum();
+                        ratingCount += recipe.getRatingCount();
+                        mine.add(recipe);
+                    }
+                    Collections.sort(mine, (a, b) -> Long.compare(b.getCreatedAt(), a.getCreatedAt()));
+                    statRecipesTextView.setText(String.valueOf(mine.size()));
+                    statAverageTextView.setText(ratingCount == 0
+                            ? getString(R.string.profile_no_average)
+                            : getString(R.string.profile_average_format, (double) ratingSum / ratingCount));
+                    showRecentRecipes(mine);
+                });
+
+        recipeRepository.loadFavoriteIds(user.getUid(), new RecipeRepository.FavoriteIdsCallback() {
+            @Override
+            public void onSuccess(List<String> ids) {
+                if (!isAdded()) {
+                    return;
+                }
+                statFavoritesTextView.setText(String.valueOf(ids.size()));
+            }
+
+            @Override
+            public void onError(Exception exception) {
+            }
+        });
+    }
+
+    private void showRecentRecipes(List<Recipe> mine) {
+        recentContainer.removeAllViews();
+        recentEmptyTextView.setVisibility(mine.isEmpty() ? View.VISIBLE : View.GONE);
+        LayoutInflater inflater = LayoutInflater.from(requireContext());
+        int count = Math.min(3, mine.size());
+        for (int i = 0; i < count; i++) {
+            Recipe recipe = mine.get(i);
+            View row = inflater.inflate(R.layout.item_profile_recipe, recentContainer, false);
+            ImageView image = row.findViewById(R.id.profile_row_image);
+            TextView name = row.findViewById(R.id.profile_row_name);
+            TextView summary = row.findViewById(R.id.profile_row_summary);
+            TextView rating = row.findViewById(R.id.profile_row_rating);
+            row.findViewById(R.id.profile_row_delete).setVisibility(View.GONE);
+
+            name.setText(recipe.getMethodName());
+            summary.setText(getString(R.string.profile_row_summary,
+                    recipe.getWaterMl(), recipe.getCoffeeGrams(), recipe.getIntensity()));
+
+            String imageUrl = recipe.getImageUrl();
+            if (imageUrl == null || imageUrl.isEmpty()) {
+                imageUrl = MethodImages.urlFor(recipe.getMethodId());
+            }
+            ImageLoader.load(image, imageUrl, R.drawable.ic_coffee_generic);
+
+            long votes = recipe.getRatingCount();
+            if (votes > 0) {
+                rating.setText(getString(R.string.home_recent_rating, (double) recipe.getRatingSum() / votes));
+                rating.setVisibility(View.VISIBLE);
+            } else {
+                rating.setVisibility(View.GONE);
+            }
+
+            row.setOnClickListener(v -> openRecipeDetail(recipe));
+            recentContainer.addView(row);
+        }
+    }
+
+    private void openRecipeDetail(Recipe recipe) {
+        Intent intent = new Intent(requireContext(), RecipeDetailActivity.class);
+        intent.putExtra(RecipeDetailActivity.EXTRA_RECIPE_ID, recipe.getId());
+        intent.putExtra(RecipeDetailActivity.EXTRA_METHOD_NAME, recipe.getMethodName());
+        intent.putExtra(RecipeDetailActivity.EXTRA_WATER_ML, recipe.getWaterMl());
+        intent.putExtra(RecipeDetailActivity.EXTRA_COFFEE_GRAMS, recipe.getCoffeeGrams());
+        intent.putExtra(RecipeDetailActivity.EXTRA_INTENSITY, recipe.getIntensity());
+        intent.putExtra(RecipeDetailActivity.EXTRA_GRIND, recipe.getGrind());
+        intent.putExtra(RecipeDetailActivity.EXTRA_NOTE, recipe.getNote());
+        intent.putExtra(RecipeDetailActivity.EXTRA_OWNER_ID, recipe.getOwnerId());
+        intent.putExtra(RecipeDetailActivity.EXTRA_SHARED, recipe.isShared());
+        startActivity(intent);
     }
 
     private void loadMethods() {
@@ -186,10 +319,7 @@ public class CoffeeOrderFragment extends Fragment {
                     return;
                 }
                 methodsLoadingTextView.setVisibility(View.GONE);
-                for (CoffeeMethod method : methods) {
-                    methodCardsContainer.addView(createMethodCard(method));
-                }
-                addIdealCoffeeCard();
+                showMethodGrid(methods);
             }
 
             @Override
@@ -199,73 +329,11 @@ public class CoffeeOrderFragment extends Fragment {
                 }
                 methodsLoadingTextView.setText(R.string.methods_error);
                 Toast.makeText(requireContext(), R.string.methods_error, Toast.LENGTH_LONG).show();
-                addIdealCoffeeCard();
+                showMethodGrid(new ArrayList<>());
             }
         });
     }
 
-    private LinearLayout createMethodCard(CoffeeMethod method) {
-        Resources resources = getResources();
-        int cardPadding = resources.getDimensionPixelSize(R.dimen.spacing_card);
-        int imageSize = resources.getDimensionPixelSize(R.dimen.card_image_size);
-        float labelTextSize = resources.getDimension(R.dimen.text_size_label);
-
-        LinearLayout card = new LinearLayout(requireContext());
-        card.setOrientation(LinearLayout.HORIZONTAL);
-        card.setGravity(Gravity.CENTER_VERTICAL);
-        card.setPadding(cardPadding, cardPadding, cardPadding, cardPadding);
-        card.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.card_background));
-        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        cardParams.setMargins(0, 0, 0, cardPadding);
-        card.setLayoutParams(cardParams);
-
-        ImageView image = new ImageView(requireContext());
-        image.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize));
-        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ImageLoader.load(image, MethodImages.urlFor(method.getId()), getImageForMethod(method.getId()));
-
-
-        LinearLayout textColumn = new LinearLayout(requireContext());
-        textColumn.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams columnParams = new LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                1f);
-        columnParams.setMarginStart(cardPadding);
-        textColumn.setLayoutParams(columnParams);
-
-        TextView label = new TextView(requireContext());
-        label.setText(method.getName());
-        label.setTextColor(ContextCompat.getColor(requireContext(), R.color.coffee_brown));
-        label.setTextSize(TypedValue.COMPLEX_UNIT_PX, labelTextSize);
-
-        TextView detailLink = new TextView(requireContext());
-        detailLink.setText(R.string.btn_view_detail);
-        detailLink.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_caramel_dark));
-        detailLink.setPaintFlags(detailLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        detailLink.setPadding(0, cardPadding / 2, 0, 0);
-        detailLink.setOnClickListener(v -> openMethodDetail(method));
-
-        textColumn.addView(label);
-        textColumn.addView(detailLink);
-
-        Button selectButton = new Button(requireContext());
-        selectButton.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        selectButton.setText(R.string.btn_select);
-        selectButton.setOnClickListener(v -> selectCoffeeMachine(method));
-
-        image.setOnClickListener(v -> openMethodDetail(method));
-
-        card.addView(image);
-        card.addView(textColumn);
-        card.addView(selectButton);
-
-        return card;
-    }
 
     private void openMethodDetail(CoffeeMethod method) {
         Bundle methodData = new Bundle();
@@ -340,8 +408,28 @@ public class CoffeeOrderFragment extends Fragment {
         step3Container.setVisibility(View.VISIBLE);
         updateGrindRecommendation(wholeBeanRadioButton.isChecked());
     }
+    private void updateGrindRecommendation(boolean isWholeBean) {
+        if (!isWholeBean) {
+            grindTypeResultTextView.setVisibility(View.GONE);
+            setStep3ContinueEnabled(true);
+            return;
+        }
+        String grind = selectedMethod.getGrind().toLowerCase(Locale.getDefault());
+        grindTypeResultTextView.setText(getString(R.string.grind_recommendation, selectedMethod.getName(), grind)
+                + "\n" + getString(R.string.grind_blocked_hint));
+        grindTypeResultTextView.setVisibility(View.VISIBLE);
+        setStep3ContinueEnabled(false);
+    }
+
+    private void setStep3ContinueEnabled(boolean enabled) {
+        step3ContinueButton.setEnabled(enabled);
+        step3ContinueButton.setAlpha(enabled ? 1f : 0.5f);
+    }
 
     private void handleStep3Continue() {
+        if (wholeBeanRadioButton.isChecked()) {
+            return;
+        }
         step3Container.setVisibility(View.GONE);
         step4Container.setVisibility(View.VISIBLE);
         calculateRecipe();
@@ -511,16 +599,6 @@ public class CoffeeOrderFragment extends Fragment {
     }
 
 
-    private void updateGrindRecommendation(boolean isWholeBean) {
-        if (!isWholeBean) {
-            grindTypeResultTextView.setVisibility(View.GONE);
-            return;
-        }
-        String grind = selectedMethod.getGrind().toLowerCase(Locale.getDefault());
-        grindTypeResultTextView.setText(getString(R.string.grind_recommendation, selectedMethod.getName(), grind));
-        grindTypeResultTextView.setVisibility(View.VISIBLE);
-    }
-
     private String getSelectedIntensity() {
         int checkedId = intensityRadioGroup.getCheckedRadioButtonId();
         if (checkedId == R.id.intensitySoftRadioButton) {
@@ -531,47 +609,50 @@ public class CoffeeOrderFragment extends Fragment {
         return getString(R.string.intensity_medium);
     }
 
-    private void addIdealCoffeeCard() {
-        Resources resources = getResources();
-        int cardPadding = resources.getDimensionPixelSize(R.dimen.spacing_card);
-        int imageSize = resources.getDimensionPixelSize(R.dimen.card_image_size);
-        float labelTextSize = resources.getDimension(R.dimen.text_size_label);
+    private void showMethodGrid(List<CoffeeMethod> methods) {
+        List<View> cards = new ArrayList<>();
+        int limit = Math.min(methods.size(), 6);
+        for (int i = 0; i < limit; i++) {
+            cards.add(createMethodCard(methods.get(i)));
+        }
 
-        LinearLayout idealCard = new LinearLayout(requireContext());
-        idealCard.setOrientation(LinearLayout.HORIZONTAL);
-        idealCard.setGravity(Gravity.CENTER_VERTICAL);
-        idealCard.setPadding(cardPadding, cardPadding, cardPadding, cardPadding);
-        idealCard.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.card_background));
-        idealCard.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
+        int columns = 3;
+        int gap = getResources().getDimensionPixelSize(R.dimen.method_grid_gap);
+        for (int start = 0; start < cards.size(); start += columns) {
+            LinearLayout row = new LinearLayout(requireContext());
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            rowParams.setMargins(0, 0, 0, gap);
+            row.setLayoutParams(rowParams);
 
-        ImageView idealImage = new ImageView(requireContext());
-        idealImage.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize));
-        idealImage.setImageResource(R.drawable.cafe_ideal);
-
-        TextView idealLabel = new TextView(requireContext());
-        LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                1f);
-        labelParams.setMarginStart(cardPadding);
-        idealLabel.setLayoutParams(labelParams);
-        idealLabel.setText(R.string.coffee_ideal);
-        idealLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.coffee_brown));
-        idealLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, labelTextSize);
-
-        Button idealButton = new Button(requireContext());
-        idealButton.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        idealButton.setText(R.string.btn_view_recipes);
-        idealButton.setOnClickListener(v -> showIdealRecipes());
-
-        idealCard.addView(idealImage);
-        idealCard.addView(idealLabel);
-        idealCard.addView(idealButton);
-
-        methodCardsContainer.addView(idealCard);
+            for (int i = 0; i < columns; i++) {
+                int index = start + i;
+                View cell = index < cards.size() ? cards.get(index) : new View(requireContext());
+                LinearLayout.LayoutParams cellParams = new LinearLayout.LayoutParams(
+                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+                cellParams.setMarginEnd(i < columns - 1 ? gap : 0);
+                cell.setLayoutParams(cellParams);
+                row.addView(cell);
+            }
+            methodCardsContainer.addView(row);
+        }
     }
+
+    private View createMethodCard(CoffeeMethod method) {
+        View card = LayoutInflater.from(requireContext()).inflate(R.layout.item_method_card, methodCardsContainer, false);
+        ImageView image = card.findViewById(R.id.method_card_image);
+        TextView name = card.findViewById(R.id.method_card_name);
+        TextView time = card.findViewById(R.id.method_card_time);
+
+        name.setText(method.getName());
+        time.setText(method.getBrewTime());
+        ImageLoader.load(image, MethodImages.urlFor(method.getId()), getImageForMethod(method.getId()));
+
+        card.setOnClickListener(v -> selectCoffeeMachine(method));
+        return card;
+    }
+
+
 }

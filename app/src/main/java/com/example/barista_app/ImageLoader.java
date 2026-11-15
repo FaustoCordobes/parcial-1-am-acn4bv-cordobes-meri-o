@@ -24,7 +24,7 @@ public final class ImageLoader {
 
         Glide.with(target)
                 .load(url)
-                .placeholder(new ColorDrawable(ContextCompat.getColor(target.getContext(), R.color.card_background)))
+                .placeholder(new ColorDrawable(ContextCompat.getColor(target.getContext(), R.color.ds_header_light)))
                 .error(fallback)
                 .into(target);
     }

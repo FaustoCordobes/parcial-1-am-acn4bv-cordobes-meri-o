@@ -46,9 +46,16 @@ public class RecipeDetailActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_recipe_detail);
 
+        View header = findViewById(R.id.recipeDetailHeader);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
+            header.setPadding(header.getPaddingLeft(),
+                    systemBars.top + getResources().getDimensionPixelSize(R.dimen.spacing_card),
+                    header.getPaddingRight(), header.getPaddingBottom());
+
+
+
             return insets;
         });
 
@@ -77,7 +84,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         noteInput = findViewById(R.id.recipeDetailNoteInput);
         Button saveNoteButton = findViewById(R.id.recipeDetailSaveButton);
         Button deleteButton = findViewById(R.id.recipeDetailDeleteButton);
-        Button backButton = findViewById(R.id.recipeDetailBackButton);
+        View backButton = findViewById(R.id.recipeDetailBackButton);
 
         nameTextView.setText(getIntent().getStringExtra(EXTRA_METHOD_NAME));
         waterTextView.setText(getString(R.string.label_water_amount, getIntent().getIntExtra(EXTRA_WATER_ML, 0)));
@@ -174,6 +181,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         if (!note.isEmpty()) {
             text += "\n" + getString(R.string.recipe_share_note, note);
         }
+        text += "\n\n" + getString(R.string.recipe_share_signature, getString(R.string.app_name));
 
         Intent send = new Intent(Intent.ACTION_SEND);
         send.setType("text/plain");

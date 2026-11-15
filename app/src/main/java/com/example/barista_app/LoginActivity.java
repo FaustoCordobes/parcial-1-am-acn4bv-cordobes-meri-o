@@ -35,9 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        String urlImage = "https://images.unsplash.com/photo-1760175445000-0e01e193d1cd";
-        ImageView loginLogo = findViewById(R.id.login_logo);
-        ImageLoader.load(loginLogo, urlImage, R.drawable.ic_coffee_generic);
+        ImageLoader.load(findViewById(R.id.login_hero), "https://images.unsplash.com/photo-1504469089401-14f795f6ddee?fm=jpg&q=70&w=1200&h=1400&fit=crop&crop=focalpoint&fp-x=0.42&fp-y=0.5", R.drawable.cafetera_de_goteo);
 
         emailInput = findViewById(R.id.login_email_input);
         passwordInput = findViewById(R.id.login_password_input);

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/spacing_card"
+        android:paddingBottom="@dimen/spacing_card">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profile_row_image"
+            android:layout_width="@dimen/profile_row_thumb"
+            android:layout_height="@dimen/profile_row_thumb"
+            android:contentDescription="@string/recipe_item_image_description"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/Shape.Barista.Thumb" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_card"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/profile_row_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Text.Barista.Row" />
+
+            <TextView
+                android:id="@+id/profile_row_summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                style="@style/Text.Barista.Caption" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/profile_row_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_card"
+            style="@style/Text.Barista.Row"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/profile_row_delete"
+            android:layout_width="@dimen/profile_icon_button_size"
+            android:layout_height="@dimen/profile_icon_button_size"
+            android:background="@drawable/bg_icon_button"
+            android:contentDescription="@string/profile_delete_description"
+            android:padding="9dp"
+            android:src="@drawable/ic_trash"
+            android:tint="?attr/colorOnSurfaceVariant" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_divider"
+        android:background="?attr/colorOutline" />
+</LinearLayout>

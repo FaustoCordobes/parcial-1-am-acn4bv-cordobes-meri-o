@@ -5,34 +5,43 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/step_label_3"
+        style="@style/Text.Barista.Label" />
+
+    <TextView
         android:id="@+id/step3TitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_card"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_screen"
         android:text="@string/step3_title"
-        android:textColor="@color/coffee_brown"
-        android:textSize="@dimen/text_size_label"
-        android:textStyle="bold" />
+        style="@style/Text.Barista.Title" />
 
     <RadioGroup
         android:id="@+id/grindStatusRadioGroup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_card"
+        android:layout_marginBottom="@dimen/spacing_screen"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/groundRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Widget.Barista.Choice"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/choice_height"
+            android:layout_marginEnd="@dimen/choice_gap"
+            android:layout_weight="1"
             android:checked="true"
             android:text="@string/grind_status_ground" />
 
         <RadioButton
             android:id="@+id/wholeBeanRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_card"
+            style="@style/Widget.Barista.Choice"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/choice_height"
+            android:layout_weight="1"
             android:text="@string/grind_status_whole_bean" />
     </RadioGroup>
 
@@ -40,10 +49,11 @@
         android:id="@+id/grindTypeResultTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_card"
-        android:background="@color/card_background"
-        android:padding="@dimen/spacing_card"
-        android:textSize="@dimen/text_size_label"
+        android:layout_marginBottom="@dimen/login_spacing"
+        android:background="@drawable/bg_warning"
+        android:padding="@dimen/spacing_screen"
+        style="@style/Text.Barista.Subtitle"
+        android:textColor="?attr/colorOnErrorContainer"
         android:visibility="gone" />
 
     <LinearLayout
@@ -53,6 +63,7 @@
 
         <Button
             android:id="@+id/step3BackButton"
+            style="@style/Widget.Barista.Button.Outlined"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -60,6 +71,7 @@
 
         <Button
             android:id="@+id/step3ContinueButton"
+            style="@style/Widget.Barista.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_card"

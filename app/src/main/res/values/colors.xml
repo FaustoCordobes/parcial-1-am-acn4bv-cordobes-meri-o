@@ -27,4 +27,32 @@
     <color name="outline_dark">#4A3A2E</color>
     <color name="text_secondary_dark">#BFAE9A</color>
     <color name="error_dark">#F2B8B5</color>
+
+
+    <color name="ds_background_light">#F3F3EF</color>
+    <color name="ds_surface_light">#FFFFFF</color>
+    <color name="ds_ink_light">#141713</color>
+    <color name="ds_ink_secondary_light">#6A6E66</color>
+    <color name="ds_line_light">#DCDDD5</color>
+    <color name="ds_accent_light">#2F5233</color>
+    <color name="ds_on_accent_light">#FFFFFF</color>
+    <color name="ds_accent_soft_light">#E3ECDD</color>
+    <color name="ds_header_light">#1C2A1F</color>
+    <color name="ds_header_highlight">#B9D3A8</color>
+    <color name="ds_error_light">#B3261E</color>
+
+    <color name="ds_background_dark">#0E100E</color>
+    <color name="ds_surface_dark">#171A17</color>
+    <color name="ds_ink_dark">#ECEEE7</color>
+    <color name="ds_ink_secondary_dark">#9A9F95</color>
+    <color name="ds_line_dark">#262A25</color>
+    <color name="ds_accent_dark">#A9CC98</color>
+    <color name="ds_on_accent_dark">#10170F</color>
+    <color name="ds_accent_soft_dark">#232B20</color>
+    <color name="ds_header_dark">#151C16</color>
+    <color name="ds_error_dark">#F2B8B5</color>
+    <color name="ds_header_ring">#59ECEEE7</color>
+    <color name="ds_scrim_start">#00000000</color>
+    <color name="ds_scrim_end">#B8000000</color>
+    <color name="ds_photo_button">#E6FFFFFF</color>
 </resources>

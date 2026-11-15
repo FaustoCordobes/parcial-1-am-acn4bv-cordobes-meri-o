@@ -24,5 +24,7 @@ public class TimerCalculatorFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        view.findViewById(R.id.timer_back).setOnClickListener(v -> requireActivity().getOnBackPressedDispatcher().onBackPressed());
     }
+
 }

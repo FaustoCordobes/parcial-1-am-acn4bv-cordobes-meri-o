@@ -24,6 +24,8 @@ import com.example.barista_app.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import android.graphics.Color;
+import com.google.android.material.color.MaterialColors;
 
 import java.util.Locale;
 
@@ -199,7 +201,7 @@ public class TimerComponent extends MaterialCardView {
 
         Context c = getContext();
         int size = (int) (28 * c.getResources().getDisplayMetrics().density);
-        int primary = ContextCompat.getColor(c, R.color.primary_color);
+        int primary = MaterialColors.getColor(this, androidx.appcompat.R.attr.colorPrimary);
 
         Drawable visible = makeEditIcon(c, size, primary, 160);
         Drawable spacer = makeEditIcon(c, size, primary, 0);
@@ -228,10 +230,10 @@ public class TimerComponent extends MaterialCardView {
 
     private void styleModeButton(MaterialButton button, boolean selected) {
         Context c = getContext();
-        int primary = ContextCompat.getColor(c, R.color.primary_color);
-        int secondary = ContextCompat.getColor(c, R.color.secondary_color);
-        button.setBackgroundTintList(ColorStateList.valueOf(selected ? primary : 0x00000000));
-        button.setTextColor(selected ? secondary : primary);
+        int primary = MaterialColors.getColor(button, androidx.appcompat.R.attr.colorPrimary);
+        int onPrimary = MaterialColors.getColor(button, com.google.android.material.R.attr.colorOnPrimary);
+        button.setBackgroundTintList(ColorStateList.valueOf(selected ? primary : Color.TRANSPARENT));
+        button.setTextColor(selected ? onPrimary : primary);
         button.setStrokeColor(ColorStateList.valueOf(primary));
         button.setStrokeWidth((int) (1 * c.getResources().getDisplayMetrics().density));
     }

@@ -18,4 +18,28 @@
 
     <dimen name="recipe_photo_preview_size">120dp</dimen>
     <dimen name="recipe_item_image_height">160dp</dimen>
+
+
+
+    <dimen name="header_padding">20dp</dimen>
+    <dimen name="header_padding_bottom">46dp</dimen>
+    <dimen name="header_gap">8dp</dimen>
+    <dimen name="header_logo_size">22dp</dimen>
+    <dimen name="header_avatar_size">32dp</dimen>
+    <dimen name="sheet_overlap">-26dp</dimen>
+    <dimen name="login_field_icon_padding">10dp</dimen>
+    <dimen name="profile_avatar_size">62dp</dimen>
+    <dimen name="profile_row_thumb">52dp</dimen>
+    <dimen name="profile_icon_button_size">36dp</dimen>
+    <dimen name="profile_divider">1dp</dimen>
+    <dimen name="method_grid_gap">10dp</dimen>
+    <dimen name="method_card_info_size">28dp</dimen>
+    <dimen name="method_card_text_margin">8dp</dimen>
+    <dimen name="nav_tab_height">46dp</dimen>
+    <dimen name="nav_bar_padding_h">10dp</dimen>
+    <dimen name="nav_bar_padding_v">9dp</dimen>
+    <dimen name="nav_tab_padding_h">12dp</dimen>
+    <dimen name="nav_tab_gap">8dp</dimen>
+    <dimen name="choice_height">48dp</dimen>
+    <dimen name="choice_gap">8dp</dimen>
 </resources>

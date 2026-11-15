@@ -1,65 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/step_label_4"
+        style="@style/Text.Barista.Label" />
+
+    <TextView
         android:id="@+id/step4TitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_card"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_screen"
         android:text="@string/step4_title"
-        android:textColor="@color/coffee_brown"
-        android:textSize="@dimen/text_size_label"
-        android:textStyle="bold" />
+        style="@style/Text.Barista.Title" />
 
-    <TextView
-        android:id="@+id/waterAmountTextView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_label" />
+        android:background="@drawable/bg_field"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_screen">
 
-    <TextView
-        android:id="@+id/coffeeAmountResultTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_card"
-        android:textSize="@dimen/text_size_label" />
+        <TextView
+            android:id="@+id/waterAmountTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Text.Barista.Row" />
 
-    <TextView
-        android:id="@+id/estimatedTimeTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_card"
-        android:textSize="@dimen/text_size_label" />
+        <TextView
+            android:id="@+id/coffeeAmountResultTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_card"
+            style="@style/Text.Barista.Row" />
+
+        <TextView
+            android:id="@+id/estimatedTimeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_card"
+            style="@style/Text.Barista.Row" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tipTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_card"
-        android:background="@color/card_background"
-        android:padding="@dimen/spacing_card"
-        android:textSize="@dimen/text_size_label" />
+        android:layout_marginTop="@dimen/spacing_card"
+        android:background="@drawable/bg_tip"
+        android:padding="@dimen/spacing_screen"
+        style="@style/Text.Barista.Subtitle"
+        android:textColor="?attr/colorOnSecondaryContainer" />
 
     <TextView
         android:id="@+id/stopwatchLabelTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/login_spacing"
         android:text="@string/stopwatch_label"
-        android:textSize="@dimen/text_size_label" />
+        style="@style/Text.Barista.Label" />
 
     <TextView
         android:id="@+id/stopwatchDisplayTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginBottom="@dimen/spacing_card"
         android:gravity="center"
-        android:text="00:00"
-        android:textColor="@color/coffee_brown"
-        android:textSize="@dimen/text_size_title"
-        android:textStyle="bold" />
+        android:text="@string/_00_00"
+        style="@style/Text.Barista.Timer" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,6 +84,7 @@
 
         <Button
             android:id="@+id/stopwatchStartButton"
+            style="@style/Widget.Barista.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -76,6 +92,7 @@
 
         <Button
             android:id="@+id/stopwatchResetButton"
+            style="@style/Widget.Barista.Button.Outlined"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_card"
@@ -85,23 +102,26 @@
 
     <Button
         android:id="@+id/recipePickPhotoButton"
+        style="@style/Widget.Barista.Button.Outlined"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_card"
         android:text="@string/recipe_pick_photo" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/recipePhotoPreview"
         android:layout_width="@dimen/recipe_photo_preview_size"
         android:layout_height="@dimen/recipe_photo_preview_size"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/spacing_card"
+        android:contentDescription="@string/recipe_photo_preview_description"
         android:scaleType="centerCrop"
         android:visibility="gone"
-        android:contentDescription="@string/recipe_photo_preview_description" />
+        app:shapeAppearanceOverlay="@style/Shape.Barista.Thumb" />
 
     <Button
         android:id="@+id/addToIdealButton"
+        style="@style/Widget.Barista.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_card"
@@ -109,6 +129,7 @@
 
     <Button
         android:id="@+id/step4BackButton"
+        style="@style/Widget.Barista.Button.Outlined"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_back" />

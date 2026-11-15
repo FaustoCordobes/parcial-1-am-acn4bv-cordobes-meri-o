@@ -7,42 +7,52 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container"
+    <include
+        android:id="@+id/main_header"
+        layout="@layout/component_header"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/sheet_overlap"
+        android:background="@drawable/bg_sheet_top"
+        android:paddingTop="@dimen/spacing_card"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_header"
+        app:layout_goneMarginTop="0dp" />
+
+    <FrameLayout
         android:id="@+id/bottom_nav_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="8dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/bg_nav_pill"
+        android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav_view"
+        <LinearLayout
+            android:id="@+id/nav_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/secondary_color"
-            android:fitsSystemWindows="false"
-            android:minHeight="0dp"
-            android:paddingBottom="0dp"
-            app:itemActiveIndicatorStyle="@style/Theme.BaristaApp"
-            app:itemIconTint="@color/nav_item_color"
-            app:itemPaddingBottom="0dp"
-            app:itemTextColor="@color/nav_item_color"
-            app:menu="@menu/bottom_menu" />
-    </androidx.cardview.widget.CardView>
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/nav_bar_padding_h"
+            android:paddingTop="@dimen/nav_bar_padding_v"
+            android:paddingEnd="@dimen/nav_bar_padding_h"
+            android:paddingBottom="@dimen/nav_bar_padding_v" />
+    </FrameLayout>
 
     <ProgressBar
         android:id="@+id/main_loading"

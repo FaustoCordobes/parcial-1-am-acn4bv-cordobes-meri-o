@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_divider"
+        android:background="?attr/colorOutline" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/spacing_card"
+            android:paddingBottom="@dimen/spacing_card">
+
+            <TextView
+                android:id="@+id/stat_recipes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_no_average"
+                style="@style/Text.Barista.Stat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_stat_recipes"
+                style="@style/Text.Barista.Caption" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/profile_divider"
+            android:layout_height="match_parent"
+            android:background="?attr/colorOutline" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/spacing_screen"
+            android:paddingTop="@dimen/spacing_card"
+            android:paddingBottom="@dimen/spacing_card">
+
+            <TextView
+                android:id="@+id/stat_favorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_no_average"
+                style="@style/Text.Barista.Stat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_stat_favorites"
+                style="@style/Text.Barista.Caption" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/profile_divider"
+            android:layout_height="match_parent"
+            android:background="?attr/colorOutline" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/spacing_screen"
+            android:paddingTop="@dimen/spacing_card"
+            android:paddingBottom="@dimen/spacing_card">
+
+            <TextView
+                android:id="@+id/stat_average"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_no_average"
+                style="@style/Text.Barista.Stat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_stat_average"
+                style="@style/Text.Barista.Caption" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_divider"
+        android:background="?attr/colorOutline" />
+</LinearLayout>

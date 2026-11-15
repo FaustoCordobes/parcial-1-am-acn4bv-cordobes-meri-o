@@ -5,19 +5,35 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/step_label_2"
+        style="@style/Text.Barista.Label" />
+
+    <TextView
         android:id="@+id/step2TitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_card"
-        android:textColor="@color/coffee_brown"
-        android:textSize="@dimen/text_size_label"
-        android:textStyle="bold" />
+        android:layout_marginTop="@dimen/spacing_small"
+        style="@style/Text.Barista.Title" />
+
+    <TextView
+        android:id="@+id/step2DetailLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_screen"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/btn_view_detail"
+        style="@style/Text.Barista.Link" />
 
     <EditText
         android:id="@+id/coffeeAmountInput"
+        style="@style/Widget.Barista.Field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_card"
+        android:layout_marginBottom="@dimen/spacing_screen"
         android:hint="@string/hint_coffee_amount"
         android:inputType="number" />
 
@@ -25,36 +41,42 @@
         android:id="@+id/intensityLabelTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_card"
         android:text="@string/step2_intensity_label"
-        android:textSize="@dimen/text_size_label" />
+        style="@style/Text.Barista.Label" />
 
     <RadioGroup
         android:id="@+id/intensityRadioGroup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_card"
+        android:layout_marginTop="@dimen/spacing_card"
+        android:layout_marginBottom="@dimen/login_spacing"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/intensitySoftRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Widget.Barista.Choice"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/choice_height"
+            android:layout_marginEnd="@dimen/choice_gap"
+            android:layout_weight="1"
             android:text="@string/intensity_soft" />
 
         <RadioButton
             android:id="@+id/intensityMediumRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_card"
+            style="@style/Widget.Barista.Choice"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/choice_height"
+            android:layout_marginEnd="@dimen/choice_gap"
+            android:layout_weight="1"
             android:checked="true"
             android:text="@string/intensity_medium" />
 
         <RadioButton
             android:id="@+id/intensityStrongRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_card"
+            style="@style/Widget.Barista.Choice"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/choice_height"
+            android:layout_weight="1"
             android:text="@string/intensity_strong" />
     </RadioGroup>
 
@@ -65,6 +87,7 @@
 
         <Button
             android:id="@+id/step2BackButton"
+            style="@style/Widget.Barista.Button.Outlined"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -72,6 +95,7 @@
 
         <Button
             android:id="@+id/step2ContinueButton"
+            style="@style/Widget.Barista.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_card"
