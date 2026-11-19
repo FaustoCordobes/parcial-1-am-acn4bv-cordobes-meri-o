@@ -10,12 +10,6 @@ public final class MethodImages {
             return "";
         }
 
-        // Por ahora ACA se cambian las imagenes de las distintas cafeteras que vienen por default.
-        // Lo ideal seria en caso de que estas imagenes no cambien seria que esten en local, y en caso de
-        // que fueran a cambiar en el tiempo, deberian estarn en firebase noSQL para que desde ese panel
-        // poder cambiar la url, y en caso de que se agreguen constantemente mas CARDS/metodos/cafeteras crear
-        // un panel donde se pueda modificar eso con un permiso para asignar a una cuenta.
-
         switch (methodId) {
             case "prensa":
                 return "https://images.unsplash.com/photo-1639906512494-dd4a536abc4e";

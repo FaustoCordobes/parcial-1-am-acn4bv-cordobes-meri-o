@@ -122,11 +122,10 @@ public class TimerComponent extends MaterialCardView {
 
     private void onStartPause() {
         if (running) {
-            // Pausar
             accumulatedMs = currentElapsed();
             running = false;
             handler.removeCallbacks(ticker);
-            btnStart.setText("Reanudar");
+            btnStart.setText(R.string.btn_resume);
             updateDisplay();
             updateEditHint();
         } else {
@@ -135,7 +134,7 @@ public class TimerComponent extends MaterialCardView {
             }
             startedAt = SystemClock.elapsedRealtime();
             running = true;
-            btnStart.setText("Pausar");
+            btnStart.setText(R.string.btn_pause);
             updateEditHint();
             handler.removeCallbacks(ticker);
             handler.post(ticker);
