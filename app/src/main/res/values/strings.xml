@@ -29,7 +29,7 @@
     <string name="coffee_ideal">Mi Café Ideal</string>
     <string name="btn_select">Seleccionar</string>
     <string name="step2_title">%1$s: cantidad e intensidad</string>
-    <string name="hint_coffee_amount">Cantidad de café (ml)</string>
+    <string name="hint_coffee_amount">Cantidad de agua (ml)</string>
     <string name="step2_intensity_label">Intensidad</string>
     <string name="intensity_soft">Suave</string>
     <string name="intensity_medium">Medio</string>
